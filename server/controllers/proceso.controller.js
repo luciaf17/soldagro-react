@@ -1,80 +1,80 @@
 const db = require('../models')
-const Puesto = db.puesto
+const Proceso = db.proceso
 
 exports.create = (request, response) => {
   // validar request
-  if (!request.body.tipo_puesto_id) {
+  if (!request.body.nombre) {
     response.status(400).send({
-      message: "El id del puesto del puesto no debe estar vacío!"
+      message: "El nombre del proceso no puede estar vacío!"
     })
     return
   }
 
-  // crear puesto
-  const puesto = {
-    nombre: request.body.nombre,
-    tipo_puesto_id: request.body.tipo_puesto_id,
+  // crear proceso
+  const proceso = {
+    nombre: request.body.nombre
   }
 
-  Puesto.create(puesto)
+  Proceso.create(proceso)
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un puesto."
+        message: error.message || "Ha ocurrido un error al intentar crear un proceso."
       })
     })
 }
 
-// traer todos los puestos
+// traer todos los procesos
 exports.findAll = (request, response) => {
-  Puesto.findAll()
+  Proceso.findAll()
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los puestos."
+        message: error.message || "Ha ocurrido un error al intentar obtener los procesos."
       })
     })
 }
 
-// traer un puesto por id
+// traer un proceso por id
 exports.findOne = (request, response) => {
   const id = request.params.id
 
-  Puesto.findByPk(id)
+  Proceso.findByPk(id)
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el puesto con id: " + id
+        message: "Ha ocurrido un error al intentar obtener el proceso con id: " + id
       })
     })
 }
 
-// modificar un puesto por id
+// modificar un proceso por id
 exports.update = (request, response) => {
   const id = request.params.id
-  Puesto.update(request.body, {
-    where: { puesto_id: id }
+
+  Proceso.update(request.body, {
+    where: { proceso_id: id }
   })
     .then(num => {
       if (num == 1) {
         response.send({
-          message: "El puesto ha sido actualizado correctamente.",
+          message: "El proceso ha sido actualizado correctamente.",
         })
       } else {
         response.send({
-          message: `El puesto con id: ${id} no se pudo actualizar.`
+          message: `El proceso con id: ${id} no se pudo actualizar.`
         })
       }
     })
     .catch(error => {
       response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el puesto con id: ' + id
+        message: 'Ha ocurrido un error al intentar actualizar el proceso con id: ' + id
       })
     })
 }
@@ -82,23 +82,23 @@ exports.update = (request, response) => {
 exports.delete = (request, response) => {
   const id = request.params.id
 
-  Puesto.destroy({
-    where: { puesto_id: id }
+  Proceso.destroy({
+    where: { proceso_id: id }
   })
     .then(num => {
       if (num == 1) {
         response.send({
-          message: "El puesto se ha eliminado con exito!"
+          message: "El proceso se ha eliminado con exito!"
         })
       } else {
         response.send({
-          message: `El puesto con id: ${id} no se pudo eliminar.`
+          message: `El proceso con id: ${id} no se pudo eliminar.`
         })
       }
     })
     .catch(error => {
       response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el puesto con id: " + id
+        message: "Ha ocurrido un error al intentar eliminar el proceso con id: " + id
       })
     })
 }

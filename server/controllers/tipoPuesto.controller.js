@@ -1,80 +1,81 @@
 const db = require('../models')
-const Puesto = db.puesto
+const TipoPuesto = db.tipoPuesto
 
 exports.create = (request, response) => {
   // validar request
-  if (!request.body.tipo_puesto_id) {
+  if (!request.body.tipo) {
     response.status(400).send({
-      message: "El id del puesto del puesto no debe estar vacío!"
+      message: "El tipo del puesto no puede estar vacío!"
     })
     return
   }
 
-  // crear puesto
-  const puesto = {
-    nombre: request.body.nombre,
-    tipo_puesto_id: request.body.tipo_puesto_id,
+  // crear tipoPuesto
+  const tipoPuesto = {
+    tipo: request.body.tipo,
   }
 
-  Puesto.create(puesto)
+  TipoPuesto.create(tipoPuesto)
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un puesto."
+        message: error.message || "Ha ocurrido un error al intentar crear un tipo de puesto."
       })
     })
 }
 
-// traer todos los puestos
+// traer todos los tipoPuesto
 exports.findAll = (request, response) => {
-  Puesto.findAll()
+  TipoPuesto.findAll()
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los puestos."
+        message: error.message || "Ha ocurrido un error al intentar obtener los tipos de puestos."
       })
     })
 }
 
-// traer un puesto por id
+// traer un tipoPuesto por id
 exports.findOne = (request, response) => {
   const id = request.params.id
 
-  Puesto.findByPk(id)
+  TipoPuesto.findByPk(id)
     .then(data => {
       response.send(data)
     })
     .catch(error => {
       response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el puesto con id: " + id
+        message: "Ha ocurrido un error al intentar obtener el tipo de puesto con id: " + id
       })
     })
 }
 
-// modificar un puesto por id
+// modificar un tipoPuesto por id
 exports.update = (request, response) => {
   const id = request.params.id
-  Puesto.update(request.body, {
-    where: { puesto_id: id }
+  console.log(request.body)
+
+  TipoPuesto.update(request.body, {
+    where: { tipo_puesto_id: id }
   })
     .then(num => {
       if (num == 1) {
         response.send({
-          message: "El puesto ha sido actualizado correctamente.",
+          message: "El tipo de puesto ha sido actualizado correctamente.",
         })
       } else {
         response.send({
-          message: `El puesto con id: ${id} no se pudo actualizar.`
+          message: `El tipo de puesto con id: ${id} no se pudo actualizar.`
         })
       }
     })
     .catch(error => {
       response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el puesto con id: ' + id
+        message: 'Ha ocurrido un error al intentar actualizar el tipo de puesto con id: ' + id
       })
     })
 }
@@ -82,23 +83,23 @@ exports.update = (request, response) => {
 exports.delete = (request, response) => {
   const id = request.params.id
 
-  Puesto.destroy({
-    where: { puesto_id: id }
+  TipoPuesto.destroy({
+    where: { tipo_puesto_id: id }
   })
     .then(num => {
       if (num == 1) {
         response.send({
-          message: "El puesto se ha eliminado con exito!"
+          message: "El tipo de puesto se ha eliminado con exito!"
         })
       } else {
         response.send({
-          message: `El puesto con id: ${id} no se pudo eliminar.`
+          message: `El tipo de puesto con id: ${id} no se pudo eliminar.`
         })
       }
     })
     .catch(error => {
       response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el puesto con id: " + id
+        message: "Ha ocurrido un error al intentar eliminar el tipo de puesto con id: " + id
       })
     })
 }

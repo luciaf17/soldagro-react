@@ -3,7 +3,7 @@ const Material = db.material
 
 exports.create = (request, response) => {
   // validar request
-  if (!request.body.codigo_materal) {
+  if (!request.body.codigo_material) {
     response.status(400).send({
       message: "El codigo de material no puede estar vacío!"
     })

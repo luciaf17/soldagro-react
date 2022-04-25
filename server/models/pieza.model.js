@@ -5,15 +5,27 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    codigo_cliente: {
+      type: DataType.STRING,
+      allowNull: false
+    },
     nombre: {
       type: DataType.STRING,
       allowNull: false
     },
     peso: {
-      type: DataType.INTEGER,
+      type: DataType.DOUBLE,
+      allowNull: false
+    },
+    largo_superficie: {
+      type: DataType.DOUBLE,
       allowNull: false
     },
     plano: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    forma: {
       type: DataType.STRING,
       allowNull: false
     },
@@ -27,6 +39,10 @@ module.exports = (sequelize, DataType) => {
     },
     revision: {
       type: DataType.STRING,
+      allowNull: false
+    },
+    precio: {
+      type: DataType.DOUBLE,
       allowNull: false
     }
   },

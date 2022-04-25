@@ -8,17 +8,12 @@ exports.create = (request, response) => {
       message: "El nombre no puede estar vacío!"
     })
     return
-  } else if (!request.body.codigo) {
-    response.status(400).send({
-      message: "El código no puede estar vacío!"
-    })
-    return
   }
 
   // crear sector
   const sector = {
     nombre: request.body.nombre,
-    codigo: request.body.codigo
+    contenedor_id: request.body.contenedor_id
   }
 
   Sector.create(sector)

@@ -12,10 +12,13 @@ module.exports = (sequelize, DataType) => {
     direccion: {
       type: DataType.STRING,
     },
-    telefono: {
-      type: DataType.INTEGER,
+    localidad: {
+      type: DataType.STRING,
     },
-    email: {
+    contacto: {
+      type: DataType.STRING,
+    },
+    cuit: {
       type: DataType.STRING,
     },
   },

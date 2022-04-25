@@ -12,19 +12,23 @@ exports.create = (request, response) => {
 
   // crear pieza
   const pieza = {
+    codigo_cliente: request.body.codigo_cliente,
     nombre: request.body.nombre,
-    peso: request.body.peso || null,
-    plano: request.body.plano || null,
-    cliente_id: request.body.cliente_id || null,
-    materia_prima_id: request.body.materia_prima_id || null,
-    despacho_id: request.body.despacho_id || null,
-    orden_de_trabajo_id: request.body.orden_de_trabajo_id || null,
-    grupo: request.body.grupo || null,
-    nominal: request.body.nominal || null,
-    revision: request.body.revision || null,
+    peso: request.body.peso,
+    largo_superficie: request.body.largo_superficie,
+    plano: request.body.plano,
+    cliente_id: request.body.cliente_id,
+    materia_prima_id: request.body.materia_prima_id,
+    forma: request.body.forma,
+    despacho_id: request.body.despacho_id,
+    orden_de_trabajo_id: request.body.orden_de_trabajo_id,
+    grupo: request.body.grupo,
+    nominal: request.body.nominal,
+    revision: request.body.revision,
     subconjunto_id: request.body.subconjunto_id || null,
     conjunto_id: request.body.conjunto_id || null,
-    deposito_id: request.body.deposito_id || null
+    deposito_id: request.body.deposito_id,
+    precio: request.body.precio,
   }
 
   Pieza.create(pieza)

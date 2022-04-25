@@ -13,8 +13,13 @@ exports.create = (request, response) => {
   // crear insumo
   const insumo = {
     descripcion: request.body.descripcion,
-    calidad: request.body.calidad || null,
-    unidad_medida: request.body.unidad_medida || null
+    marca: request.body.marca || null,
+    tamanio: request.body.tamanio || null,
+    unidad_medida: request.body.unidad_medida || null,
+    precio: request.body.precio || null,
+    proveedor_id: request.body.proveedor_id || null,
+    deposito_id: request.body.deposito_id || null,
+    stock: request.body.stock || null,
   }
 
   Insumo.create(insumo)

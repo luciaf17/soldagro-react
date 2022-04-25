@@ -9,11 +9,20 @@ module.exports = (sequelize, DataType) => {
       type: DataType.STRING,
       allowNull: false
     },
-    calidad: {
+    marca: {
+      type: DataType.STRING,
+    },
+    tamanio: {
       type: DataType.STRING,
     },
     unidad_medida: {
       type: DataType.STRING,
+    },
+    precio: {
+      type: DataType.DOUBLE,
+    },
+    stock: {
+      type: DataType.DOUBLE,
     },
   },
     {

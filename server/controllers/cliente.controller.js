@@ -14,7 +14,10 @@ exports.create = (request, response) => {
   const cliente = {
     nombre: request.body.nombre,
     direccion: request.body.direccion || null,
+    localidad: request.body.localidad || null,
     contacto: request.body.contacto || null,
+    iva: request.body.iva || null,
+    cuit: request.body.cuit || null,
   }
 
   Cliente.create(cliente)

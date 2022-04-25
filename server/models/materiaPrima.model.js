@@ -15,7 +15,7 @@ module.exports = (sequelize, DataType) => {
       type: DataType.STRING,
     },
     espesor: {
-      type: DataType.INTEGER,
+      type: DataType.DOUBLE,
     },
   },
     {

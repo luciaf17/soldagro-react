@@ -19,7 +19,7 @@ db.sequelize = sequelize
 
 // Creación de modelos (tablas en db)
 
-db.nombrePuesto = require('./nombrePuesto.model')(sequelize, Sequelize)
+db.tipoPuesto = require('./tipoPuesto.model')(sequelize, Sequelize)
 db.puesto = require('./puesto.model')(sequelize, Sequelize)
 db.usuario = require('./usuario.model')(sequelize, Sequelize)
 db.rol = require('./rol.model')(sequelize, Sequelize)
@@ -39,6 +39,8 @@ db.ordenDeTrabajo = require('./ordenDeTrabajo.model')(sequelize, Sequelize)
 db.subconjunto = require('./subconjunto.model')(sequelize, Sequelize)
 db.conjunto = require('./conjunto.model')(sequelize, Sequelize)
 db.pieza = require('./pieza.model')(sequelize, Sequelize)
+db.proceso = require('./proceso.model')(sequelize, Sequelize)
+db.estructura = require('./estructura.model')(sequelize, Sequelize)
 
 
 // Relaciones y asociaciones entre modelos (tablas en db)
@@ -64,9 +66,9 @@ db.rol.belongsToMany(db.usuario, {
 //------------------------------//
 
 // PUESTO
-// nombre_puesto_id fk en puesto
-db.puesto.belongsTo(db.nombrePuesto, {
-  foreignKey: 'nombre_puesto_id'
+// tipo_puesto_id fk en puesto
+db.puesto.belongsTo(db.tipoPuesto, {
+  foreignKey: 'tipo_puesto_id'
 })
 
 // uno a muchos
@@ -93,14 +95,14 @@ db.sector.belongsTo(db.contenedor, {
 //------------------------------//
 
 // DEPOSITO
-// uno a muchos puestos
+/* // uno a muchos puestos
 db.deposito.hasMany(db.puesto, {
   foreignKey: 'deposito_id'
 })
 // deposito_id fk en puesto
 db.puesto.belongsTo(db.deposito, {
   foreignKey: 'deposito_id'
-})
+}) */
 
 // uno a muchos envases
 db.deposito.hasMany(db.envase, {
@@ -236,16 +238,17 @@ db.pedido.hasMany(db.pieza, {
 db.pieza.belongsTo(db.pedido, {
   foreignKey: 'pedido_id'
 })
-db.pedido.hasMany(db.ordenDeTrabajo, {
+/* db.pedido.hasMany(db.ordenDeTrabajo, {
   foreignKey: 'pedido_id'
-})
-db.ordenDeTrabajo.belongsTo(db.pedido, {
-  foreignKey: 'pedido_id'
-})
+}) */
 
 //------------------------------//
 
 // ORDEN DE TRABAJO
+db.ordenDeTrabajo.belongsTo(db.pedido, {
+  foreignKey: 'pedido_id'
+})
+
 db.ordenDeTrabajo.hasMany(db.pieza, {
   foreignKey: 'orden_de_trabajo_id'
 })
@@ -286,5 +289,34 @@ db.subconjunto.hasMany(db.pieza, {
 db.pieza.belongsTo(db.subconjunto, {
   foreignKey: 'subconjunto_id'
 })
+
+
+//------------------------------//
+
+// ESTRUCTURA
+/* db.estructura.belongsTo(db.pieza, {
+  foreignKey: 'pieza_id'
+}) */
+
+// PIEZA
+
+db.pieza.belongsTo(db.estructura, {
+  foreignKey: 'estructura_id'
+})
+
+//------------------------------//
+
+// PROCESO
+db.estructura.belongsToMany(db.proceso, {
+  through: "estructura_proceso",
+  as: "proceso",
+  foreignKey: "estructura_id"
+})
+db.proceso.belongsToMany(db.estructura, {
+  through: "estructura_proceso",
+  as: "estructura",
+  foreignKey: "proceso_id"
+})
+
 
 module.exports = db

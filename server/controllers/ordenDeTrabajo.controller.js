@@ -8,7 +8,6 @@ exports.create = (request, response) => {
   // crear orden de trabajo
   const ordenDeTrabajo = {
     despacho_id: request.body.despacho_id,
-    descripcion: request.body.descripcion,
     plano: request.body.plano,
     revision: request.body.revision,
     orden_compra: request.body.orden_compra

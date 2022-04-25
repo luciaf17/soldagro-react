@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 
 db.sequelize.sync()
 
-require('./routes/nombrePuesto.routes')(app)
+require('./routes/tipoPuesto.routes')(app)
 require('./routes/puesto.routes')(app)
 require('./routes/usuario.routes')(app)
 require('./routes/rol.routes')(app)
@@ -33,6 +33,8 @@ require('./routes/ordenDeTrabajo.routes')(app)
 require('./routes/subconjunto.routes')(app)
 require('./routes/conjunto.routes')(app)
 require('./routes/pieza.routes')(app)
+require('./routes/estructura.routes')(app)
+require('./routes/proceso.routes')(app)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

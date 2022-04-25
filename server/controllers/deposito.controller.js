@@ -3,16 +3,17 @@ const Deposito = db.deposito
 
 exports.create = (request, response) => {
   // validar request
-  if (!request.body.puesto_id) {
-    response.status(400).send({
-      message: "El id del puesto no debe estar vacío!"
-    })
-    return
-  }
+  /*   if (!request.body.puesto_id) {
+      response.status(400).send({
+        message: "El id del puesto no debe estar vacío!"
+      })
+      return
+    } */
 
   // crear deposito
   const deposito = {
-    puesto_id: request.body.puesto_id,
+    /*     puesto_id: request.body.puesto_id, */
+    nombre: request.body.nombre
   }
 
   Deposito.create(deposito)

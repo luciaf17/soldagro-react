@@ -12,7 +12,16 @@ module.exports = (sequelize, DataType) => {
     direccion: {
       type: DataType.STRING,
     },
+    localidad: {
+      type: DataType.STRING,
+    },
     contacto: {
+      type: DataType.STRING,
+    },
+    iva: {
+      type: DataType.STRING,
+    },
+    cuit: {
       type: DataType.STRING,
     }
   },

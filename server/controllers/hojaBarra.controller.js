@@ -3,21 +3,21 @@ const HojaBarra = db.hojaBarra
 
 exports.create = (request, response) => {
   // validar request
-  if (!request.body.descripcion) {
-    response.status(400).send({
-      message: "La descripcion no puede estar vacía!"
-    })
-    return
-  }
+  /*   if (!request.body.descripcion) {
+      response.status(400).send({
+        message: "La descripcion no puede estar vacía!"
+      })
+      return
+    } */
 
   // crear hoja/barra
   const hojaBarra = {
-    descripcion: request.body.descripcion,
-    largo: request.body.puesto_id || null,
-    ancho: request.body.puesto_id || null,
+    largo: request.body.largo || null,
+    ancho: request.body.ancho || null,
     proveedor_id: request.body.proveedor_id || null,
     materia_prima_id: request.body.materia_prima_id || null,
     deposito_id: request.body.deposito_id || null,
+    stock: request.body.stock || null,
   }
 
   HojaBarra.create(hojaBarra)

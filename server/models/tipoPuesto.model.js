@@ -1,13 +1,12 @@
 module.exports = (sequelize, DataType) => {
-  const Material = sequelize.define('material', {
-    material_id: {
+  const TipoPuesto = sequelize.define('tipo_puesto', {
+    tipo_puesto_id: {
       type: DataType.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    codigo_material: {
-      type: DataType.STRING,
-      allowNull: false
+    tipo: {
+      type: DataType.STRING
     }
   },
     {
@@ -16,5 +15,5 @@ module.exports = (sequelize, DataType) => {
     }
   )
 
-  return Material
+  return TipoPuesto
 }

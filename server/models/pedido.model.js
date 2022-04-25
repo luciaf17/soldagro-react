@@ -12,13 +12,10 @@ module.exports = (sequelize, DataType) => {
       type: DataType.DATE,
     },
     orden_compra: {
-      type: DataType.STRING,
+      type: DataType.INTEGER,
     },
     cantidad: {
       type: DataType.INTEGER,
-    },
-    descripcion: {
-      type: DataType.STRING,
     },
     plano: {
       type: DataType.STRING,
@@ -26,6 +23,9 @@ module.exports = (sequelize, DataType) => {
     revision: {
       type: DataType.STRING,
     },
+    estado: {
+      type: DataType.STRING,
+    }
   },
     {
       freezeTableName: true,

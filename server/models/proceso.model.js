@@ -1,18 +1,13 @@
 module.exports = (sequelize, DataType) => {
-  const HojaBarra = sequelize.define('hoja_barra', {
-    hoja_barra_id: {
+  const Proceso = sequelize.define('proceso', {
+    proceso_id: {
       type: DataType.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    largo: {
+    nombre: {
       type: DataType.STRING,
-    },
-    ancho: {
-      type: DataType.STRING,
-    },
-    stock: {
-      type: DataType.INTEGER,
+      allowNull: false
     }
   },
     {
@@ -21,5 +16,5 @@ module.exports = (sequelize, DataType) => {
     }
   )
 
-  return HojaBarra
+  return Proceso
 }

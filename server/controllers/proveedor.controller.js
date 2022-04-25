@@ -14,8 +14,9 @@ exports.create = (request, response) => {
   const proveedor = {
     nombre: request.body.nombre,
     direccion: request.body.direccion || null,
-    telefono: request.body.telefono || null,
-    email: request.body.email || null
+    localidad: request.body.localidad || null,
+    contacto: request.body.contacto || null,
+    cuit: request.body.cuit || null
   }
 
   Proveedor.create(proveedor)

@@ -16,6 +16,7 @@ exports.create = (request, response) => {
     producto_tipo: request.body.producto_tipo || null,
     capacidad: request.body.capacidad || null,
     unidad_medida: request.body.unidad_medida || null,
+    deposito_id: request.body.deposito_id || null,
   }
 
   Envase.create(envase)
