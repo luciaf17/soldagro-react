@@ -35,6 +35,7 @@ require('./routes/conjunto.routes')(app)
 require('./routes/pieza.routes')(app)
 require('./routes/estructura.routes')(app)
 require('./routes/proceso.routes')(app)
+require('./routes/entrega.routes')(app)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

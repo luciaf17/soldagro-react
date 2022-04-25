@@ -63,6 +63,13 @@ db.rol.belongsToMany(db.usuario, {
   foreignKey: "rol_id"
 })
 
+db.usuario.hasMany(this.ordenDeTrabajo, {
+  foreignKey: 'responsable'
+})
+db.ordenDeTrabajo.belongsTo(db.usuario, {
+  foreignKey: 'responsable'
+})
+
 //------------------------------//
 
 // PUESTO
@@ -93,6 +100,18 @@ db.sector.belongsTo(db.contenedor, {
 })
 
 //------------------------------//
+
+// SECTOR
+db.sector.hasMany(db.ordenDeTrabajo, {
+  foreignKey: 'sector_id'
+})
+
+db.ordenDeTrabajo.belongsTo(db.sector, {
+  foreignKey: 'sector_id'
+})
+
+//------------------------------//
+
 
 // DEPOSITO
 /* // uno a muchos puestos
@@ -158,6 +177,15 @@ db.conjunto.belongsTo(db.deposito, {
   foreignKey: 'deposito_id'
 })
 
+// uno a muchas ordenes de trabajo
+db.deposito.hasMany(db.ordenDeTrabajo, {
+  foreignKey: 'deposito_id'
+})
+// deposito_id fk en orden_de_trabajo
+db.ordenDeTrabajo.belongsTo(db.deposito, {
+  foreignKey: 'deposito_id'
+})
+
 //------------------------------//
 
 // PROVEEDOR
@@ -212,6 +240,13 @@ db.pieza.belongsTo(db.despacho, {
   foreignKey: 'despacho_id'
 })
 
+db.despacho.hasMany(db.ordenDeTrabajo, {
+  foreignKey: 'despacho_id'
+})
+db.ordenDeTrabajo.belongsTo(db.despacho, {
+  foreignKey: 'despacho_id'
+})
+
 //------------------------------//
 
 // CLIENTE
@@ -226,6 +261,13 @@ db.cliente.hasMany(db.pedido, {
   foreignKey: 'cliente_id'
 })
 db.pedido.belongsTo(db.cliente, {
+  foreignKey: 'cliente_id'
+})
+
+db.cliente.hasMany(db.ordenDeTrabajo, {
+  foreignKey: 'cliente_id'
+})
+db.ordenDeTrabajo.belongsTo(db.cliente, {
   foreignKey: 'cliente_id'
 })
 
@@ -256,12 +298,12 @@ db.pieza.belongsTo(db.ordenDeTrabajo, {
   foreignKey: 'orden_de_trabajo_id'
 })
 
-db.ordenDeTrabajo.hasMany(db.despacho, {
+/* db.ordenDeTrabajo.hasMany(db.despacho, {
   foreignKey: 'orden_de_trabajo_id'
 })
 db.despacho.belongsTo(db.ordenDeTrabajo, {
   foreignKey: 'orden_de_trabajo_id'
-})
+}) */
 
 //------------------------------//
 
@@ -306,6 +348,7 @@ db.pieza.belongsTo(db.estructura, {
 
 //------------------------------//
 
+
 // PROCESO
 db.estructura.belongsToMany(db.proceso, {
   through: "estructura_proceso",
@@ -316,6 +359,20 @@ db.proceso.belongsToMany(db.estructura, {
   through: "estructura_proceso",
   as: "estructura",
   foreignKey: "proceso_id"
+})
+
+//------------------------------//
+
+db.entrega.belongsTo(db.ordenDeTrabajo, {
+  foreignKey: 'orden_de_trabajo_id'
+})
+
+db.entrega.belongsTo(db.despacho, {
+  foreignKey: 'despacho_id'
+})
+
+db.entrega.belongsTo(db.pieza, {
+  foreignKey: 'pieza_id'
 })
 
 

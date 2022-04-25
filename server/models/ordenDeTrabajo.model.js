@@ -5,8 +5,8 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    descripcion: {
-      type: DataType.STRING,
+    orden_compra: {
+      type: DataType.INTEGER,
     },
     plano: {
       type: DataType.STRING,
@@ -14,6 +14,21 @@ module.exports = (sequelize, DataType) => {
     revision: {
       type: DataType.STRING,
     },
+    cantidad: {
+      type: DataType.INTEGER,
+    },
+    cantidad_buenas: {
+      type: DataType.INTEGER,
+    },
+    cantidad_malas: {
+      type: DataType.INTEGER,
+    },
+    fecha_inicio: {
+      type: DataType.DATE,
+    },
+    fecha_fin: {
+      type: DataType.DATE,
+    }
   },
     {
       freezeTableName: true,

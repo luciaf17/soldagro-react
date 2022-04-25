@@ -10,7 +10,16 @@ exports.create = (request, response) => {
     despacho_id: request.body.despacho_id,
     plano: request.body.plano,
     revision: request.body.revision,
-    orden_compra: request.body.orden_compra
+    orden_compra: request.body.orden_compra,
+    cantidad: request.body.cantidad,
+    cliente_id: request.body.cliente_id,
+    deposito_id: request.body.deposito_id,
+    sector_id: request.body.sector_id,
+    cantidad_buenas: request.body.cantidad_buenas,
+    cantidad_malas: request.body.cantidad_malas,
+    fecha_inicio: request.body.fecha_inicio,
+    fecha_fin: request.body.fecha_fin,
+    responsable: request.body.usuario_id
   }
 
   OrdenDeTrabajo.create(ordenDeTrabajo)
