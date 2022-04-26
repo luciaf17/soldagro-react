@@ -13,6 +13,7 @@ module.exports = (sequelize, DataType) => {
     },
     orden_compra: {
       type: DataType.INTEGER,
+      unique: true,
     },
     cantidad: {
       type: DataType.INTEGER,

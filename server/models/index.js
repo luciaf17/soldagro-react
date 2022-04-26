@@ -41,6 +41,7 @@ db.conjunto = require('./conjunto.model')(sequelize, Sequelize)
 db.pieza = require('./pieza.model')(sequelize, Sequelize)
 db.proceso = require('./proceso.model')(sequelize, Sequelize)
 db.estructura = require('./estructura.model')(sequelize, Sequelize)
+db.entrega = require('./entrega.model')(sequelize, Sequelize)
 
 
 // Relaciones y asociaciones entre modelos (tablas en db)
@@ -63,7 +64,7 @@ db.rol.belongsToMany(db.usuario, {
   foreignKey: "rol_id"
 })
 
-db.usuario.hasMany(this.ordenDeTrabajo, {
+db.usuario.hasMany(db.ordenDeTrabajo, {
   foreignKey: 'responsable'
 })
 db.ordenDeTrabajo.belongsTo(db.usuario, {
@@ -291,6 +292,11 @@ db.ordenDeTrabajo.belongsTo(db.pedido, {
   foreignKey: 'pedido_id'
 })
 
+db.ordenDeTrabajo.belongsTo(db.pedido, {
+  foreignKey: 'orden_compra',
+  targetKey: 'orden_compra'
+})
+
 db.ordenDeTrabajo.hasMany(db.pieza, {
   foreignKey: 'orden_de_trabajo_id'
 })
@@ -362,6 +368,8 @@ db.proceso.belongsToMany(db.estructura, {
 })
 
 //------------------------------//
+
+// ENTREGA
 
 db.entrega.belongsTo(db.ordenDeTrabajo, {
   foreignKey: 'orden_de_trabajo_id'

@@ -5,9 +5,6 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    orden_compra: {
-      type: DataType.INTEGER,
-    },
     plano: {
       type: DataType.STRING,
     },
