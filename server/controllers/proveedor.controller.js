@@ -1,7 +1,7 @@
 const db = require('../models')
 const Proveedor = db.proveedor
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.nombre) {
     response.status(400).send({
@@ -19,89 +19,87 @@ exports.create = (request, response) => {
     cuit: request.body.cuit || null
   }
 
-  Proveedor.create(proveedor)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedProveedor = await Proveedor.create(proveedor)
+    response.status(201).json(savedProveedor)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un proveedor."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un proveedor."
-      })
-    })
+  }
+
 }
 
 // traer todos los proveedores
-exports.findAll = (request, response) => {
-  Proveedor.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const proveedores = await Proveedor.findAll()
+    response.send(proveedores)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener los proveedores."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los proveedores."
-      })
-    })
+  }
 }
 
 // traer un proveedor por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Proveedor.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const proveedor = await Proveedor.findByPk(id)
+    response.send(proveedor)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener el proveedor con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el proveedor con id: " + id
-      })
-    })
+  }
 }
 
 // modificar un proveedor por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
-  Proveedor.update(request.body, {
-    where: { proveedor_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El proveedor ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `El proveedor con id: ${id} no se pudo actualizar.`
-        })
-      }
+
+  try {
+    const estadoUpdate = await Proveedor.update(request.body, {
+      where: { proveedor_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el proveedor con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "El proveedor ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `El proveedor con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar el proveedor con id: ' + id
     })
+  }
 }
 
-exports.delete = (request, response) => {
+//eliminar un proveedor
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Proveedor.destroy({
-    where: { proveedor_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El proveedor se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `El proveedor con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Proveedor.destroy({
+      where: { proveedor_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el proveedor con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "El proveedor se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `El proveedor con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar el proveedor con id: " + id
     })
+  }
 }

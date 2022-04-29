@@ -1,7 +1,7 @@
 const db = require('../models')
 const Deposito = db.deposito
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   /*   if (!request.body.puesto_id) {
       response.status(400).send({
@@ -16,89 +16,87 @@ exports.create = (request, response) => {
     nombre: request.body.nombre
   }
 
-  Deposito.create(deposito)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedDeposito = await Deposito.create(deposito)
+    response.status(201).json(savedDeposito)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un deposito."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un deposito."
-      })
-    })
+  }
+
 }
 
 // traer todos los depositos
-exports.findAll = (request, response) => {
-  Deposito.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const depositos = await Deposito.findAll()
+    response.send(depositos)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener los depositos."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los depositos."
-      })
-    })
+  }
 }
 
 // traer un deposito por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Deposito.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const deposito = await Deposito.findByPk(id)
+    response.send(deposito)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener el deposito con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el deposito con id: " + id
-      })
-    })
+  }
 }
 
 // modificar un deposito por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
-  Deposito.update(request.body, {
-    where: { deposito_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El deposito ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `El deposito con id: ${id} no se pudo actualizar.`
-        })
-      }
+
+  try {
+    const estadoUpdate = await Deposito.update(request.body, {
+      where: { deposito_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el deposito con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "El deposito ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `El deposito con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar el deposito con id: ' + id
     })
+  }
 }
 
-exports.delete = (request, response) => {
+//eliminar un deposito
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Deposito.destroy({
-    where: { deposito_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El deposito se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `El deposito con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Deposito.destroy({
+      where: { deposito_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el deposito con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "El deposito se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `El deposito con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar el deposito con id: " + id
     })
+  }
 }

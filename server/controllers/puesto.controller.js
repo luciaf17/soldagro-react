@@ -1,7 +1,7 @@
 const db = require('../models')
 const Puesto = db.puesto
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.tipo_puesto_id) {
     response.status(400).send({
@@ -16,89 +16,87 @@ exports.create = (request, response) => {
     tipo_puesto_id: request.body.tipo_puesto_id,
   }
 
-  Puesto.create(puesto)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedPuesto = await Puesto.create(puesto)
+    response.status(201).json(savedPuesto)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un puesto."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un puesto."
-      })
-    })
+  }
+
 }
 
 // traer todos los puestos
-exports.findAll = (request, response) => {
-  Puesto.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const puestos = await Puesto.findAll()
+    response.send(puestos)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener los puestos."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los puestos."
-      })
-    })
+  }
 }
 
 // traer un puesto por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Puesto.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const puesto = await Puesto.findByPk(id)
+    response.send(puesto)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener el puesto con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el puesto con id: " + id
-      })
-    })
+  }
 }
 
 // modificar un puesto por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
-  Puesto.update(request.body, {
-    where: { puesto_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El puesto ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `El puesto con id: ${id} no se pudo actualizar.`
-        })
-      }
+
+  try {
+    const estadoUpdate = await Puesto.update(request.body, {
+      where: { puesto_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el puesto con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "El puesto ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `El puesto con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar el puesto con id: ' + id
     })
+  }
 }
 
-exports.delete = (request, response) => {
+//eliminar un puesto
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Puesto.destroy({
-    where: { puesto_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El puesto se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `El puesto con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Puesto.destroy({
+      where: { puesto_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el puesto con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "El puesto se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `El puesto con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar el puesto con id: " + id
     })
+  }
 }

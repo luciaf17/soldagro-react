@@ -1,7 +1,7 @@
 const db = require('../models')
 const OrdenDeTrabajo = db.ordenDeTrabajo
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   // Chequear que puede ser validador para esta request
 
@@ -12,7 +12,7 @@ exports.create = (request, response) => {
     revision: request.body.revision,
     orden_compra: request.body.orden_compra,
     cantidad: request.body.cantidad,
-    cliente_id: request.body.cliente_id,
+    orden_de_trabajo_id: request.body.orden_de_trabajo_id,
     deposito_id: request.body.deposito_id,
     sector_id: request.body.sector_id,
     cantidad_buenas: request.body.cantidad_buenas,
@@ -22,91 +22,87 @@ exports.create = (request, response) => {
     responsable: request.body.usuario_id
   }
 
-  OrdenDeTrabajo.create(ordenDeTrabajo)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedOrdenDeTrabajo = await OrdenDeTrabajo.create(ordenDeTrabajo)
+    response.status(201).json(savedOrdenDeTrabajo)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear una orden de trabajo."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear una orden de trabajo."
-      })
-    })
+  }
+
 }
 
-// traer todas las ordenes de trabajo
-exports.findAll = (request, response) => {
-  OrdenDeTrabajo.findAll()
-    .then(data => {
-      response.send(data)
+// traer todos las ordenes de trabajo
+exports.findAll = async (request, response) => {
+  try {
+    const ordenesDeTrabajo = await OrdenDeTrabajo.findAll()
+    response.send(ordenesDeTrabajo)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las ordenes de trabajo."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las ordenes de trabajo."
-      })
-    })
+  }
 }
 
 // traer una orden de trabajo por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  OrdenDeTrabajo.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const ordenDeTrabajo = await OrdenDeTrabajo.findByPk(id)
+    response.send(ordenDeTrabajo)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener La orden de trabajo con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la orden de trabajo con id: " + id
-      })
-    })
+  }
 }
 
 // modificar una orden de trabajo por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  OrdenDeTrabajo.update(request.body, {
-    where: { orden_de_trabajo_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La orden de trabajo ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `La orden de trabajo con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await OrdenDeTrabajo.update(request.body, {
+      where: { orden_de_trabajo_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la orden de trabajo con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La orden de trabajo ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La orden de trabajo con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la orden de trabajo con id: ' + id
     })
+  }
 }
 
 //eliminar una orden de trabajo
-exports.delete = (request, response) => {
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  OrdenDeTrabajo.destroy({
-    where: { orden_de_trabajo_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La orden de trabajo se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La orden de trabajo con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await OrdenDeTrabajo.destroy({
+      where: { orden_de_trabajo_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la orden de trabajo con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "La orden de trabajo se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `La orden de trabajo con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la orden de trabajo con id: " + id
     })
+  }
 }

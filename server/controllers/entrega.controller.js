@@ -1,7 +1,7 @@
 const db = require('../models')
 const Entrega = db.entrega
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   // chequear validadores
 
@@ -21,91 +21,87 @@ exports.create = (request, response) => {
     fecha: request.body.fecha
   }
 
-  Entrega.create(entrega)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedEntrega = await Entrega.create(entrega)
+    response.status(201).json(savedEntrega)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear una entrega."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear una entrega."
-      })
-    })
+  }
+
 }
 
 // traer todos las entregas
-exports.findAll = (request, response) => {
-  Entrega.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const entregas = await Entrega.findAll()
+    response.send(entregas)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las entregas."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las entregas."
-      })
-    })
+  }
 }
 
-// traer una entrega por id
-exports.findOne = (request, response) => {
+// traer un entrega por id
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Entrega.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const entrega = await Entrega.findByPk(id)
+    response.send(entrega)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener la entrega con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la entrega con id: " + id
-      })
-    })
+  }
 }
 
-// modificar una entrega por id
-exports.update = (request, response) => {
+// modificar un entrega por id
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  Entrega.update(request.body, {
-    where: { entrega_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La entrega ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `La entrega con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await Entrega.update(request.body, {
+      where: { entrega_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la entrega con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La entrega ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La entrega con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la entrega con id: ' + id
     })
+  }
 }
 
-//eliminar una entrega
-exports.delete = (request, response) => {
+//eliminar un entrega
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Entrega.destroy({
-    where: { entrega_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La entrega se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La entrega con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Entrega.destroy({
+      where: { entrega_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la entrega con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "La entrega se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `La entrega con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la entrega con id: " + id
     })
+  }
 }

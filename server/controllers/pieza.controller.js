@@ -1,7 +1,7 @@
 const db = require('../models')
 const Pieza = db.pieza
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.nombre) {
     response.status(400).send({
@@ -17,7 +17,7 @@ exports.create = (request, response) => {
     peso: request.body.peso,
     largo_superficie: request.body.largo_superficie,
     plano: request.body.plano,
-    cliente_id: request.body.cliente_id,
+    pieza_id: request.body.pieza_id,
     materia_prima_id: request.body.materia_prima_id,
     forma: request.body.forma,
     despacho_id: request.body.despacho_id,
@@ -31,91 +31,87 @@ exports.create = (request, response) => {
     precio: request.body.precio,
   }
 
-  Pieza.create(pieza)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedPieza = await Pieza.create(pieza)
+    response.status(201).json(savedPieza)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear una pieza."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear una pieza."
-      })
-    })
+  }
+
 }
 
-// traer todos las piezas
-exports.findAll = (request, response) => {
-  Pieza.findAll()
-    .then(data => {
-      response.send(data)
+// traer todas las piezas
+exports.findAll = async (request, response) => {
+  try {
+    const piezas = await Pieza.findAll()
+    response.send(piezas)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las piezas."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las piezas."
-      })
-    })
+  }
 }
 
 // traer una pieza por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Pieza.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const pieza = await Pieza.findByPk(id)
+    response.send(pieza)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener la pieza con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la pieza con id: " + id
-      })
-    })
+  }
 }
 
 // modificar una pieza por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  Pieza.update(request.body, {
-    where: { pieza_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La pieza ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `La pieza con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await Pieza.update(request.body, {
+      where: { pieza_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la pieza con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La pieza ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La pieza con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la pieza con id: ' + id
     })
+  }
 }
 
 //eliminar una pieza
-exports.delete = (request, response) => {
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Pieza.destroy({
-    where: { pieza_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La pieza se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La pieza con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Pieza.destroy({
+      where: { pieza_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la pieza con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "La pieza se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `La pieza con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la pieza con id: " + id
     })
+  }
 }

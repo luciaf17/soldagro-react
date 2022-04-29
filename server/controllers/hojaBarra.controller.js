@@ -1,7 +1,7 @@
 const db = require('../models')
 const HojaBarra = db.hojaBarra
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   /*   if (!request.body.descripcion) {
       response.status(400).send({
@@ -20,90 +20,87 @@ exports.create = (request, response) => {
     stock: request.body.stock || null,
   }
 
-  HojaBarra.create(hojaBarra)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedHojaBarra = await HojaBarra.create(hojaBarra)
+    response.status(201).json(savedHojaBarra)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un conjunto."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear una hoja/barra."
-      })
-    })
+  }
+
 }
 
-// traer todos los hojas/barras
-exports.findAll = (request, response) => {
-  HojaBarra.findAll()
-    .then(data => {
-      response.send(data)
+// traer todos las hojas/barra
+exports.findAll = async (request, response) => {
+  try {
+    const hojasBarras = await HojaBarra.findAll()
+    response.send(hojasBarras)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las hojas/barra."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las hojas/barras."
-      })
-    })
+  }
 }
 
-// traer una hoja/barra por id
-exports.findOne = (request, response) => {
+// traer un hojaBarra por id
+exports.findOne = async (request, response) => {
+  const id = request.params.id
+  try {
+    const hojaBarra = await HojaBarra.findByPk(id)
+    response.send(hojaBarra)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener la hoja/barra con id: " + id
+    })
+  }
+}
+
+// modificar un hojaBarra por id
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  HojaBarra.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const estadoUpdate = await HojaBarra.update(request.body, {
+      where: { hoja_barra_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la hoja/barra con id: " + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La hoja/barra ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La hoja/barra con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la hoja/barra con id: ' + id
     })
+  }
 }
 
-// modificar un hoja/barra por id
-exports.update = (request, response) => {
+//eliminar un hojaBarra
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  HojaBarra.update(request.body, {
-    where: { hoja_barra_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La hoja/barra ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `La hoja/barra con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoDelete = await HojaBarra.destroy({
+      where: { hoja_barra_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la hoja/barra con id: ' + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "la hoja/barra se ha eliminado con exito!"
       })
-    })
-}
-
-exports.delete = (request, response) => {
-  const id = request.params.id
-
-  HojaBarra.destroy({
-    where: { hoja_barra_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La hoja/barra se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La hoja/barra con id: ${id} no se pudo eliminar.`
-        })
-      }
-    })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la hoja/barra con id: " + id
+    } else {
+      response.send({
+        message: `La hoja/barra con id: ${id} no se pudo eliminar.`
       })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la hoja/barra con id: " + id
     })
+  }
 }

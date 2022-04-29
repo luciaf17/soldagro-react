@@ -1,7 +1,7 @@
 const db = require('../models')
 const Material = db.material
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.codigo_material) {
     response.status(400).send({
@@ -15,90 +15,87 @@ exports.create = (request, response) => {
     codigo_material: request.body.codigo_material,
   }
 
-  Material.create(material)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedMaterial = await Material.create(material)
+    response.status(201).json(savedMaterial)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un material."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un material."
-      })
-    })
+  }
+
 }
 
-// traer todos los codigos de material
-exports.findAll = (request, response) => {
-  Material.findAll()
-    .then(data => {
-      response.send(data)
+// traer todos los materiales
+exports.findAll = async (request, response) => {
+  try {
+    const materiales = await Material.findAll()
+    response.send(materiales)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener los materiales."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los codigos de material."
-      })
-    })
+  }
 }
 
 // traer un material por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Material.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const material = await Material.findByPk(id)
+    response.send(material)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener el material con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el material con id: " + id
-      })
-    })
+  }
 }
 
 // modificar un material por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  Material.update(request.body, {
-    where: { material_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El material ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `El material con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await Material.update(request.body, {
+      where: { material_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el material con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "El material ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `El material con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar el material con id: ' + id
     })
+  }
 }
 
-exports.delete = (request, response) => {
+//eliminar un material
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Material.destroy({
-    where: { material_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El material se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `El material con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Material.destroy({
+      where: { material_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el material con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "El material se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `El material con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar el material con id: " + id
     })
+  }
 }

@@ -1,7 +1,7 @@
 const db = require('../models')
 const Rol = db.rol
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.nombre) {
     response.status(400).send({
@@ -15,90 +15,87 @@ exports.create = (request, response) => {
     nombre: request.body.nombre,
   }
 
-  Rol.create(rol)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedRol = await Rol.create(rol)
+    response.status(201).json(savedRol)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear un rol."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un rol."
-      })
-    })
+  }
+
 }
 
 // traer todos los roles
-exports.findAll = (request, response) => {
-  Rol.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const roles = await Rol.findAll()
+    response.send(roles)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener los roles."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener los roles."
-      })
-    })
+  }
 }
 
 // traer un rol por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Rol.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const rol = await Rol.findByPk(id)
+    response.send(rol)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener el rol con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener el rol con id: " + id
-      })
-    })
+  }
 }
 
 // modificar un rol por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
-  console.log(request.body)
-  Rol.update(request.body, {
-    where: { rol_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El rol ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `El rol con id: ${id} no se pudo actualizar.`
-        })
-      }
+
+  try {
+    const estadoUpdate = await Rol.update(request.body, {
+      where: { rol_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar el rol con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "El rol ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `El rol con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar el rol con id: ' + id
     })
+  }
 }
 
-exports.delete = (request, response) => {
+//eliminar un rol
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Rol.destroy({
-    where: { rol_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "El rol se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `El rol con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Rol.destroy({
+      where: { rol_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar el rol con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "El rol se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `El rol con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar el rol con id: " + id
     })
+  }
 }

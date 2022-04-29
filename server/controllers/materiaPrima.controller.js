@@ -1,7 +1,7 @@
 const db = require('../models')
 const MateriaPrima = db.materiaPrima
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.material_id) {
     response.status(400).send({
@@ -19,91 +19,87 @@ exports.create = (request, response) => {
     espesor: request.body.espesor || null
   }
 
-  MateriaPrima.create(materiaPrima)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedMateriaPrima = await MateriaPrima.create(materiaPrima)
+    response.status(201).json(savedMateriaPrima)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear una materia prima."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear un materia prima."
-      })
-    })
+  }
+
 }
 
-// traer todas las materias primas
-exports.findAll = (request, response) => {
-  MateriaPrima.findAll()
-    .then(data => {
-      response.send(data)
+// traer todos las materias primas
+exports.findAll = async (request, response) => {
+  try {
+    const materiasPrimas = await MateriaPrima.findAll()
+    response.send(materiasPrimas)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las materias primas."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las materias primas."
-      })
-    })
+  }
 }
 
 // traer una materia prima por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  MateriaPrima.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const materiaPrima = await MateriaPrima.findByPk(id)
+    response.send(materiaPrima)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener la materia prima con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la materia prima con id: " + id
-      })
-    })
+  }
 }
 
 // modificar una materia prima por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  MateriaPrima.update(request.body, {
-    where: { materia_prima_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La materia prima ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `La materia prima con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await MateriaPrima.update(request.body, {
+      where: { materia_prima_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la materia prima con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La materia prima ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La materia prima con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la materia prima con id: ' + id
     })
+  }
 }
 
 //eliminar una materia prima
-exports.delete = (request, response) => {
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  MateriaPrima.destroy({
-    where: { materia_prima_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La materia prima se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La materia prima con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await MateriaPrima.destroy({
+      where: { materia_prima_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la materia prima con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "La materia prima se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `La materia prima con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la materia prima con id: " + id
     })
+  }
 }

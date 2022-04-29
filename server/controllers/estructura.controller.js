@@ -1,7 +1,7 @@
 const db = require('../models')
 const Estructura = db.estructura
 
-exports.create = (request, response) => {
+exports.create = async (request, response) => {
   // validar request
   if (!request.body.proceso1_id) {
     response.status(400).send({
@@ -32,91 +32,87 @@ exports.create = (request, response) => {
     descripcion5: request.body.descripcion5 || null,
   }
 
-  Estructura.create(estructura)
-    .then(data => {
-      response.send(data)
+  try {
+    const savedEstructura = await Estructura.create(estructura)
+    response.status(201).json(savedEstructura)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar crear una estructura."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar crear una estructura."
-      })
-    })
+  }
+
 }
 
 // traer todos las estructuras
-exports.findAll = (request, response) => {
-  Estructura.findAll()
-    .then(data => {
-      response.send(data)
+exports.findAll = async (request, response) => {
+  try {
+    const estructuras = await Estructura.findAll()
+    response.send(estructuras)
+  } catch (error) {
+    response.status(500).send({
+      message: error.message || "Ha ocurrido un error al intentar obtener las estructuras."
     })
-    .catch(error => {
-      response.status(500).send({
-        message: error.message || "Ha ocurrido un error al intentar obtener las estructuras."
-      })
-    })
+  }
 }
 
 // traer una estructura por id
-exports.findOne = (request, response) => {
+exports.findOne = async (request, response) => {
   const id = request.params.id
-
-  Estructura.findByPk(id)
-    .then(data => {
-      response.send(data)
+  try {
+    const estructura = await Estructura.findByPk(id)
+    response.send(estructura)
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar obtener La estructura con id: " + id
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar obtener la estructura con id: " + id
-      })
-    })
+  }
 }
 
 // modificar una estructura por id
-exports.update = (request, response) => {
+exports.update = async (request, response) => {
   const id = request.params.id
 
-  Estructura.update(request.body, {
-    where: { estructura_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "la estructura ha sido actualizado correctamente.",
-        })
-      } else {
-        response.send({
-          message: `la estructura con id: ${id} no se pudo actualizar.`
-        })
-      }
+  try {
+    const estadoUpdate = await Estructura.update(request.body, {
+      where: { estructura_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: 'Ha ocurrido un error al intentar actualizar la estructura con id: ' + id
+    if (estadoUpdate == 1) {
+      response.send({
+        message: "La estructura ha sido actualizado correctamente.",
       })
+    }
+    else {
+      response.send({
+        message: `La estructura con id: ${id} no se pudo actualizar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: 'Ha ocurrido un error al intentar actualizar la estructura con id: ' + id
     })
+  }
 }
 
-//eliminar un estructura
-exports.delete = (request, response) => {
+//eliminar una estructura
+exports.delete = async (request, response) => {
   const id = request.params.id
 
-  Estructura.destroy({
-    where: { estructura_id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        response.send({
-          message: "La estructura se ha eliminado con exito!"
-        })
-      } else {
-        response.send({
-          message: `La estructura con id: ${id} no se pudo eliminar.`
-        })
-      }
+  try {
+    const estadoDelete = await Estructura.destroy({
+      where: { estructura_id: id }
     })
-    .catch(error => {
-      response.status(500).send({
-        message: "Ha ocurrido un error al intentar eliminar la estructura con id: " + id
+    if (estadoDelete == 1) {
+      response.send({
+        message: "La estructura se ha eliminado con exito!"
       })
+    } else {
+      response.send({
+        message: `La estructura con id: ${id} no se pudo eliminar.`
+      })
+    }
+  } catch (error) {
+    response.status(500).send({
+      message: "Ha ocurrido un error al intentar eliminar la estructura con id: " + id
     })
+  }
 }
