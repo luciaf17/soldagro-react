@@ -12,18 +12,14 @@ import {
 import { useForm } from "../hooks/useForm";
 //import axios from "axios";
 
-const CargaCliente = () => {
+const CargaPuesto = () => {
 
   const [form, handleChange, handleReset] = useForm({
     nombre: "",
-    direccion: "",
-    localidad: "",
-    contacto: "",
-    iva: "",
-    cuit: "",
+    tipo: "",
   });
 
-  const {nombre, direccion, localidad, contacto, iva, cuit } = form;
+  const {nombre, tipo } = form;
   
   //se envian los datos
   const handleSubmit = (e) => {
@@ -53,7 +49,7 @@ const CargaCliente = () => {
         >
           <Form className="create-form form-control-md" action="">
             <h1 className="text-center">
-              <span className="font-weight-bold text-center">Cargar Cliente</span>
+              <span className="font-weight-bold text-center">Cargar Puesto</span>
             </h1>
             <hr />
             <FormGroup>
@@ -66,49 +62,13 @@ const CargaCliente = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label>Dirección</Label>
+              <Label>Tipo</Label>
               <Input
-                type="textarea"
+                type="select"
                 onChange={handleChange}
-                name="direccion"
-                value={direccion}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Localidad</Label>
-              <Input
-                type="textarea"
-                onChange={handleChange}
-                name="localidad"
-                value={localidad}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Contacto</Label>
-              <Input
-                type="text"
-                onChange={handleChange}
-                name="contacto"
-                value={contacto}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Condición frente al IVA</Label>
-              <Input
-                type="text"
-                onChange={handleChange}
-                name="iva"
-                value={iva}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>CUIT</Label>
-              <Input
-                type="text"
-                onChange={handleChange}
-                name="cuit"
-                value={cuit}
-              />
+                name="tipo"
+                value={tipo}
+                />
             </FormGroup>
             <div className="d-grid gap-2 col-3 mx-auto pt-2">
               <Button
@@ -133,4 +93,4 @@ const CargaCliente = () => {
   );
 };
 
-export default CargaCliente;
+export default CargaPuesto;

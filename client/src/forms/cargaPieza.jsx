@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Form,
@@ -11,12 +11,13 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+//import axios from "axios";
+import { useForm } from "../hooks/useForm";
 
 const CargaPieza = () => {
   //usar reduce??
 
-  const [form, setForm] = useState({
+  const [form, handleChange, handleReset] = useForm({
     codCliente: "",
     descripcion: "",
     peso: "",
@@ -34,13 +35,7 @@ const CargaPieza = () => {
     precio: "",
   });
 
-  //guardo la data
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const {codCliente, descripcion, peso, largoSup, plano, revision, cliente, matPrima, forma, despacho, grupo, nominal, conjunto, deposito, precio } = form;
 
   //se envian los datos
   const handleSubmit = (e) => {
@@ -57,30 +52,8 @@ const CargaPieza = () => {
     //body: JSON.stringify(formData); otra forma de enviar el formdata
 
   console.log(form);
+  handleReset();
   };
-
-  //limpiar el form
-  const handleReset = (e) => {
-    e.preventDefault();
-      setForm({
-          codCliente: "",
-          descripcion: "",
-          peso: "",
-          largoSup: "",
-          plano: "",
-          revision: "",
-          cliente: "",
-          matPrima: "",
-          forma: "",
-          despacho: "",
-          grupo: "",
-          nominal: "",
-          conjunto: "",
-          deposito: "",
-          precio: "",
-      });
-      console.log(form);
- }
 
   return (
     <Container fluid="fluid">
@@ -103,7 +76,7 @@ const CargaPieza = () => {
                 type="text"
                 onChange={handleChange}
                 name="codCliente"
-                value={form.codCliente}
+                value={codCliente}
               />
             </FormGroup>
             <FormGroup>
@@ -112,7 +85,7 @@ const CargaPieza = () => {
                 type="textarea"
                 onChange={handleChange}
                 name="descripcion"
-                value={form.descripcion}
+                value={descripcion}
               />
             </FormGroup>
             <FormGroup>
@@ -121,7 +94,7 @@ const CargaPieza = () => {
                 type="text"
                 onChange={handleChange}
                 name="peso"
-                value={form.peso}
+                value={peso}
               />
             </FormGroup>
             <FormGroup>
@@ -130,7 +103,7 @@ const CargaPieza = () => {
                 type="text"
                 onChange={handleChange}
                 name="largoSup"
-                value={form.largoSup}
+                value={largoSup}
               />
             </FormGroup>
             <FormGroup>
@@ -139,7 +112,7 @@ const CargaPieza = () => {
                 type="text"
                 onChange={handleChange}
                 name="plano"
-                value={form.plano}
+                value={plano}
               />
             </FormGroup>
             <FormGroup>
@@ -148,7 +121,7 @@ const CargaPieza = () => {
                 type="text"
                 onChange={handleChange}
                 name="revision"
-                value={form.revision}
+                value={revision}
               />
             </FormGroup>
             <FormGroup>
@@ -157,7 +130,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="cliente"
-                value={form.cliente}
+                value={cliente}
               />
             </FormGroup>
             <FormGroup>
@@ -166,7 +139,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="matPrima"
-                value={form.matPrima}
+                value={matPrima}
               />
             </FormGroup>
             <FormGroup>
@@ -175,7 +148,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="forma"
-                value={form.forma}
+                value={forma}
               />
             </FormGroup>
             <FormGroup>
@@ -184,7 +157,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="despacho"
-                value={form.despacho}
+                value={despacho}
               />
             </FormGroup>
             <FormGroup>
@@ -193,7 +166,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="grupo"
-                value={form.grupo}
+                value={grupo}
               />
             </FormGroup>
             <FormGroup>
@@ -202,7 +175,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="nominal"
-                value={form.nominal}
+                value={nominal}
               />
             </FormGroup>
             <FormGroup>
@@ -211,7 +184,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="conjunto"
-                value={form.conjunto}
+                value={conjunto}
               />
             </FormGroup>
             <FormGroup>
@@ -220,7 +193,7 @@ const CargaPieza = () => {
                 type="select"
                 onChange={handleChange}
                 name="deposito"
-                value={form.deposito}
+                value={deposito}
               />
             </FormGroup>
             <FormGroup>
@@ -231,7 +204,7 @@ const CargaPieza = () => {
                   type="text"
                   onChange={handleChange}
                   name="precio"
-                  value={form.precio}
+                  value={precio}
                 />
               </InputGroup>
             </FormGroup>
