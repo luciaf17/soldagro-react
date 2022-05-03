@@ -56,16 +56,31 @@ const CargaPieza = () => {
     //axios.post('http://localhost:3000/api/cargaPieza', formData);
     //body: JSON.stringify(formData); otra forma de enviar el formdata
 
-    //limpiar el form
-
-    for (const key in form) {
-      setForm({
-        ...form,
-        [key]: "",
-      });
-    }
-  };
   console.log(form);
+  };
+
+  //limpiar el form
+  const handleReset = (e) => {
+    e.preventDefault();
+      setForm({
+          codCliente: "",
+          descripcion: "",
+          peso: "",
+          largoSup: "",
+          plano: "",
+          revision: "",
+          cliente: "",
+          matPrima: "",
+          forma: "",
+          despacho: "",
+          grupo: "",
+          nominal: "",
+          conjunto: "",
+          deposito: "",
+          precio: "",
+      });
+      console.log(form);
+ }
 
   return (
     <Container fluid="fluid">
@@ -227,6 +242,13 @@ const CargaPieza = () => {
                 color="primary"
               >
                 Guardar
+              </Button>
+              <Button
+                className="btn btn-block"
+                onClick={handleReset}
+                color="primary"
+              >
+                Reset
               </Button>
             </div>
           </Form>
