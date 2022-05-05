@@ -9,33 +9,45 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
+import { NavLink as RRNavLink } from "react-router-dom";
 
 const Navigationbar = () => {
   return (
     <div>
-      <Navbar
-        color="dark"
-        container="true"
-        dark
-        expand="md"
-        fixed="end"
-        light
-      >
+      <Navbar color="dark" container="true" dark expand="md" fixed="end" light>
         <Nav navbar>
-          <NavItem>
-            <NavLink href="">Pendientes</NavLink>
+        <NavItem>
+            <NavLink activeclassname="active" tag={RRNavLink} to="/">
+              Home
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="">Entregas</NavLink>
+            <NavLink >
+              Pendientes
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink >
+              Entregas
+            </NavLink>
           </NavItem>
           <UncontrolledDropdown inNavbar nav>
             <DropdownToggle caret nav>
               Crear
             </DropdownToggle>
             <DropdownMenu end>
-              <DropdownItem>Carga Pieza</DropdownItem>
-              <DropdownItem>Carga Cliente</DropdownItem>
-              <DropdownItem>Carga Proveedor</DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaPieza" >
+                Carga Pieza
+              </DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaCliente" >
+                Carga Cliente
+              </DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaPuesto" >
+                Carga Puesto
+              </DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaUsuario" >
+                Carga Usuario
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
           <UncontrolledDropdown inNavbar nav>
@@ -49,7 +61,7 @@ const Navigationbar = () => {
             </DropdownMenu>
           </UncontrolledDropdown>
           <NavItem>
-            <NavLink href="/components/">Salir </NavLink>
+            <NavLink activeclassname="active" tag={RRNavLink} to="/login">Salir </NavLink>
           </NavItem>
         </Nav>
       </Navbar>

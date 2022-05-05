@@ -1,10 +1,8 @@
 import React from "react";
-import Navigationbar from "./Navigationbar";
 
 const Home = () => {
   return (
     <>
-      <Navigationbar />
       <h5 className=" mt-20 d-grid gap-2 col-6 mx-auto pt-2 text-center">
         Bienvenido a Soldagro SRL
       </h5>
