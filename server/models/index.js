@@ -42,6 +42,7 @@ db.pieza = require('./pieza.model')(sequelize, Sequelize)
 db.proceso = require('./proceso.model')(sequelize, Sequelize)
 db.estructura = require('./estructura.model')(sequelize, Sequelize)
 db.entrega = require('./entrega.model')(sequelize, Sequelize)
+db.usuario_rol = require('./usuarioRol.model')(sequelize, Sequelize)
 
 
 // Relaciones y asociaciones entre modelos (tablas en db)
