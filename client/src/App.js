@@ -1,10 +1,9 @@
-import Login from "./pages/Login";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <AppRoutes />
   );
 }
 
