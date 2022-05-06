@@ -12,7 +12,7 @@ import {
   Col,
 } from "reactstrap";
 //import axios from "axios";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../../hooks/useForm";
 
 const CargaPieza = () => {
   //usar reduce??

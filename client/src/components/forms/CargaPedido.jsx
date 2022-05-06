@@ -9,7 +9,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../../hooks/useForm";
 //import axios from "axios";
 
 const CargaPedido = () => {

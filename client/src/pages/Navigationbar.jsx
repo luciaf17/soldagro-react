@@ -31,6 +31,11 @@ const Navigationbar = () => {
               Entregas
             </NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink >
+              Buscar
+            </NavLink>
+          </NavItem>
           <UncontrolledDropdown inNavbar nav>
             <DropdownToggle caret nav>
               Crear
