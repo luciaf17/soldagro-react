@@ -17,7 +17,7 @@ exports.create = async (request, response) => {
     peso: request.body.peso,
     largo_superficie: request.body.largo_superficie,
     plano: request.body.plano,
-    pieza_id: request.body.pieza_id,
+    cliente_id: request.body.cliente_id,
     materia_prima_id: request.body.materia_prima_id,
     forma: request.body.forma,
     despacho_id: request.body.despacho_id,

@@ -1,5 +1,6 @@
 const db = require('../models')
 const Usuario = db.usuario
+const Rol = db.rol
 
 exports.create = async (request, response) => {
   // validar request
@@ -13,12 +14,13 @@ exports.create = async (request, response) => {
   // crear usuario
   const usuario = {
     nombre: request.body.nombre,
-    rol: request.body.rol,
+    /*     rol_id: request.body.rol_id, */
     puesto_id: request.body.puesto_id || null
   }
 
   try {
     const savedUsuario = await Usuario.create(usuario)
+    await savedUsuario.addRol(await Rol.findByPk(request.body.rol_id))
     response.status(201).json(savedUsuario)
   } catch (error) {
     response.status(500).send({
@@ -32,7 +34,7 @@ exports.create = async (request, response) => {
 exports.findAll = async (request, response) => {
   try {
     const usuarios = await Usuario.findAll()
-    response.send(usuarios)
+    response.json(usuarios)
   } catch (error) {
     response.status(500).send({
       message: error.message || "Ha ocurrido un error al intentar obtener los usuarios."
