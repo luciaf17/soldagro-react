@@ -4,6 +4,7 @@ const Rol = db.rol
 
 exports.create = async (request, response) => {
   // validar request
+  console.log(request.body)
   if (!request.body.nombre) {
     response.status(400).send({
       message: "El nombre no puede estar vacío!"
@@ -15,12 +16,11 @@ exports.create = async (request, response) => {
   const usuario = {
     nombre: request.body.nombre,
     /*     rol_id: request.body.rol_id, */
-    puesto_id: request.body.puesto_id || null
   }
 
   try {
     const savedUsuario = await Usuario.create(usuario)
-    await savedUsuario.addRol(await Rol.findByPk(request.body.rol_id))
+    await savedUsuario.addRol(await Rol.findByPk(request.body.rol))
     response.status(201).json(savedUsuario)
   } catch (error) {
     response.status(500).send({

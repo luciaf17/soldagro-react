@@ -3,11 +3,11 @@ const cors = require('cors')
 const app = express()
 const db = require('./models')
 
-let corsOptions = {
-  origin: 'http://localhost:3306'
-}
+/* let corsOptions = {
+  origin: 'http://localhost:3001'
+} */
 
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
