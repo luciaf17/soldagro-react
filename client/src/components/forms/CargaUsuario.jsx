@@ -18,14 +18,16 @@ const CargaUsuario = () => {
   'http://localhost:3001/api/roles'
  );
 
+ console.log(roles);
+
  const [form, handleChange, handleReset] = useForm({
   nombre: '',
   rol: '',
  });
 
- console.log(form);
-
  const { nombre, rol } = form;
+
+ console.log(form);
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -36,7 +38,6 @@ const CargaUsuario = () => {
    formData.append(key, form[key]);
   }
 
-  /*   handleReset(); */
   //enviar el formdata
   const res = await axios({
    method: 'post',
@@ -44,6 +45,8 @@ const CargaUsuario = () => {
    data: formData,
    headers: { 'Content-Type': 'multipart/form-data' },
   });
+
+  handleReset();
   //body: JSON.stringify(formData); otra forma de enviar el formdata
  };
 
