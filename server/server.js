@@ -11,6 +11,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// método que sincroniza los modelos de sequelize y luego inicia el server.
+// el parametro '{ force: true }' dentro de .sync() provoca el wipe data del server
+// esta opcion es util cuando se cambian los modelos constantemente.
 db.sequelize.sync()
 
 require('./routes/tipoPuesto.routes')(app)

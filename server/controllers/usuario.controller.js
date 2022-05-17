@@ -15,7 +15,7 @@ exports.create = async (request, response) => {
   // crear usuario
   const usuario = {
     nombre: request.body.nombre,
-    /*     rol_id: request.body.rol_id, */
+    password: request.body.password
   }
 
   try {
