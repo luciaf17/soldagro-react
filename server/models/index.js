@@ -48,11 +48,6 @@ db.usuario_rol = require('./usuarioRol.model')(sequelize, Sequelize)
 // Relaciones y asociaciones entre modelos (tablas en db)
 
 // USUARIO
-// puesto_id fk en usuario
-db.usuario.belongsTo(db.puesto, {
-  foreignKey: 'puesto_id'
-})
-
 // muchos a muchos usuario_rol
 db.usuario.belongsToMany(db.rol, {
   through: "usuario_rol",

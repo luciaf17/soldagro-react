@@ -3,24 +3,39 @@ const Usuario = db.usuario
 const Rol = db.rol
 
 exports.create = async (request, response) => {
+
+  const { nombre, password, rol } = request.body
+
   // validar request
-  console.log(request.body)
-  if (!request.body.nombre) {
+  if (!nombre) {
     response.status(400).send({
-      message: "El nombre no puede estar vacío!"
+      message: "¡El nombre no puede estar vacío!"
     })
     return
   }
+  if (!password) {
+    response.status(400).send({
+      message: "¡El password no puede estar vacío!"
+    })
+  }
+
+  const usuarioExistente = await Usuario.findOne({ where: { nombre } })
+  if (usuarioExistente) {
+    return response.status(400).send({
+      error: "Ya existe un usuario con el mismo nombre. El usuario debe ser único"
+    })
+  }
+
 
   // crear usuario
   const usuario = {
-    nombre: request.body.nombre,
-    password: request.body.password
+    nombre,
+    password
   }
 
   try {
     const savedUsuario = await Usuario.create(usuario)
-    await savedUsuario.addRol(await Rol.findByPk(request.body.rol))
+    await savedUsuario.addRol(await Rol.findByPk(rol))
     response.status(201).json(savedUsuario)
   } catch (error) {
     response.status(500).send({
@@ -42,11 +57,19 @@ exports.findAll = async (request, response) => {
   }
 }
 
-// traer un usuario por id
+// traer un usuario por id, incluidos los roles
 exports.findOne = async (request, response) => {
   const id = request.params.id
   try {
-    const usuario = await Usuario.findByPk(id)
+    const usuario = await Usuario.findByPk(id, {
+      include: {
+        model: Rol,
+        as: 'rol',
+        through: {
+          attributes: []
+        }
+      }
+    })
     response.send(usuario)
   } catch (error) {
     response.status(500).send({
