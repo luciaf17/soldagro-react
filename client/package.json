@@ -11,6 +11,7 @@
     "multer": "^1.4.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-loader-spinner": "^6.0.0-0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "reactstrap": "^9.0.2",

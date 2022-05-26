@@ -4,6 +4,7 @@ import { types } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import useGetData from '../hooks/useGetData';
+import {ThreeDots} from 'react-loader-spinner';
 
 import "../css/login.css";
 import logo from "../assets/logo.jpg";
@@ -25,10 +26,10 @@ const Login = () => {
   const { usuario, password } = values;
 
   const login = () => {
-      if (usuarios.length > 0 && usuario !== '' && password !== '') {
+      if (usuario !== '' && password !== '') {
         const user = usuarios.find((u) => u.nombre.toString().toLowerCase().trim() === usuario.toLowerCase().trim());
         console.log(user);
-        if (user) {
+        if (user) { //acá se debería validar si la password coincide
             dispatch({
               type: types.LOGIN,
               payload: user,
@@ -48,6 +49,17 @@ const Login = () => {
 
 
   return (
+    <>
+    {isLoading? (
+      <div className="login">
+       <div className="container">
+          <ThreeDots type="bubble-loop" bgColor={"red"} title={"Cargando..."} color={'red'} size={200} />
+        </div>
+      </div>
+    ) : (
+      isError? (
+        <p>Hubo un error</p>
+      ) : (
     <div className="login">
       <div className="container">
       <div className="row-sm">
@@ -98,7 +110,6 @@ const Login = () => {
               </div>
               <div className="card-footer mt-4 text-center">
                   <p>Si olvidó su clave, por favor contacte al administrador</p>
-                  <p>{authState.user?.name}</p>
                   </div>
             </div>
           </div>
@@ -106,6 +117,9 @@ const Login = () => {
       </div>
     </div>
     </div>
+    )
+    )}
+    </>
   );
 };
 
