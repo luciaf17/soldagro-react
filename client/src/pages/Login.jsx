@@ -3,7 +3,7 @@ import {AuthContext} from "../auth/AuthContext";
 import { types } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
-
+import useGetData from '../hooks/useGetData';
 
 import "../css/login.css";
 import logo from "../assets/logo.jpg";
@@ -13,6 +13,10 @@ const Login = () => {
   const { authState, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [usuarios, isLoading, isError] = useGetData(
+    'http://localhost:3001/api/usuarios'
+   );
+
   const [values, handleChange] = useForm({
     usuario: '',
     password: '',
@@ -20,23 +24,26 @@ const Login = () => {
 
   const { usuario, password } = values;
 
-  const login = (e) => {
-    e.preventDefault();
+  const login = () => {
+      if (usuarios.length > 0 && usuario !== '' && password !== '') {
+        const user = usuarios.find((u) => u.nombre.toString().toLowerCase().trim() === usuario.toLowerCase().trim());
+        console.log(user);
+        if (user) {
+            dispatch({
+              type: types.LOGIN,
+              payload: user,
+            });
+          const formData = new FormData();
+          formData.append("usuario", usuario);
+          formData.append("password", password);
 
-    //preparar el formdata
-    const formData = new FormData();
-    formData.append("usuario", usuario);
-    formData.append("password", password);
-
-
-    dispatch({
-      type: types.LOGIN,
-      payload: {
-        name: usuario,
-      },
-    });
-  
-    navigate("/");
+          navigate("/");
+        } else {
+          alert("Usuario incorrecto");
+        }
+      } else {
+        alert("Ingrese usuario y contraseña");
+      }
   };
 
 

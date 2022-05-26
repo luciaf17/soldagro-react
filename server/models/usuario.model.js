@@ -9,10 +9,10 @@ module.exports = (sequelize, DataType) => {
       type: DataType.STRING,
       allowNull: false
     },
-    password: {
+    /* password: {
       type: DataType.STRING,
       allowNull: false
-    }
+    } */
   },
     {
       freezeTableName: true,

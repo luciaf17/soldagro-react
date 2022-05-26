@@ -17,7 +17,7 @@ const Home = () => {
         quibusdam saepe possimus cupiditate maiores corrupti provident fuga quod
         quae, cumque nostrum optio facere.
       </p>
-      <p>Hola, {authState.user?.name}</p>
+      <p>Hola, {authState.user?.nombre}</p>
     </>
   );
 };
