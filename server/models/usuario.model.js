@@ -20,10 +20,10 @@ module.exports = (sequelize, DataType) => {
       freezeTableName: true,
       modelName: 'singularName',
       hooks: {
-        beforeCreate: (usuario) => {
+        beforeCreate: async (usuario) => {
           if (usuario.password) {
-            const salt = bcrypt.genSaltSync()
-            usuario.password = bcrypt.hashSync(usuario.password, salt)
+            const salt = await bcrypt.genSalt()
+            usuario.password = await bcrypt.hash(usuario.password, salt)
           }
         },
         afterCreate: (usuario) => {
@@ -35,6 +35,10 @@ module.exports = (sequelize, DataType) => {
       }
     }
   )
+
+  Usuario.prototype.compareHash = async function (password, passwordHash) {
+    return await bcrypt.compare(password, passwordHash)
+  }
 
   return Usuario
 }
