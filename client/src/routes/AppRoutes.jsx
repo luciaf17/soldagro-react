@@ -7,33 +7,35 @@ import CargaPedido from "../components/forms/CargaPedido";
 import CargaCliente from "../components/forms/CargaCliente";
 import CargaPuesto from "../components/forms/CargaPuesto";
 import CargaUsuario from "../components/forms/CargaUsuario";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
-//import PublicRoute from "./PublicRoute";
+import CargaRol from "../components/forms/CargaRol";
+import CargaContenedor from "../components/forms/CargaContenedor";
+import PublicRoute from "./PublicRoute";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <Navigationbar />
       <Routes>
         <Route
           path="*"
           element={
             <ProtectedRoutes>
+              <Navigationbar />
               <Routes>
-                <Route path="/" element={<Login />} />
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/CargaPieza" element={<CargaPieza />} />
+                <Route exact path="/CargaPedido" element={<CargaPedido />} />
+                <Route exact path="/CargaCliente" element={<CargaCliente />} />
+                <Route exact path="/CargaPuesto" element={<CargaPuesto />} />
+                <Route exact path="/CargaUsuario" element={<CargaUsuario />} />
+                <Route exact path="/CargaRol" element={<CargaRol />} />
+                <Route exact path="/CargaContenedor" element={<CargaContenedor />} />
               </Routes>
             </ProtectedRoutes>
           }
         />
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/CargaPieza" element={<CargaPieza />} />
-        <Route exact path="/CargaPedido" element={<CargaPedido />} />
-        <Route exact path="/CargaCliente" element={<CargaCliente />} />
-        <Route exact path="/CargaPuesto" element={<CargaPuesto />} />
-        <Route exact path="/CargaUsuario" element={<CargaUsuario />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route
+        <Route
           exact
           path="/login"
           element={
@@ -41,7 +43,7 @@ const AppRoutes = () => {
               <Login />
             </PublicRoute>
           }
-        /> */}
+        /> 
       </Routes>
     </BrowserRouter>
   );

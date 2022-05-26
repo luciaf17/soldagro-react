@@ -10,22 +10,15 @@ import {
  Col,
 } from 'reactstrap';
 import { useForm } from '../../hooks/useForm';
-import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
-const CargaUsuario = () => {
- const [roles, isLoading, isError] = useGetData(
-  'http://localhost:3001/api/roles'
- );
-
- console.log(roles);
+const CargaContenedor = () => {
 
  const [form, handleChange, handleReset] = useForm({
   nombre: '',
-  rol: '',
  });
 
- const { nombre, rol } = form;
+ const { nombre } = form;
 
  console.log(form);
  //se envian los datos
@@ -41,13 +34,11 @@ const CargaUsuario = () => {
   //enviar el formdata
   const res = await axios({
    method: 'post',
-   url: 'http://localhost:3001/api/usuarios',
+   url: 'http://localhost:3001/api/contenedores',
    data: formData,
    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  
-  //body: JSON.stringify(formData); otra forma de enviar el formdata
   handleReset();
  };
 
@@ -63,7 +54,7 @@ const CargaUsuario = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Cargar Usuario</span>
+       <span className='font-weight-bold text-center'>Cargar Contenedor</span>
       </h1>
       <hr />
       <FormGroup>
@@ -74,22 +65,6 @@ const CargaUsuario = () => {
         name='nombre'
         value={nombre}
        />
-      </FormGroup>
-      <FormGroup>
-       <Label>Rol</Label>
-       <Input
-        type='select'
-        defaultValue={'DEFAULT'}
-        onChange={handleChange}
-        name='rol'
-       >
-        <option disabled value={'DEFAULT'}></option>
-        {roles.map((rol) => (
-         <option key={rol.rol_id} value={rol.rol_id}>
-          {rol.nombre}
-         </option>
-        ))}
-       </Input>
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
        <Button className='btn btn-block' onClick={handleSubmit} color='primary'>
@@ -111,4 +86,4 @@ const CargaUsuario = () => {
  );
 };
 
-export default CargaUsuario;
+export default CargaContenedor;

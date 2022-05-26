@@ -1,8 +1,45 @@
-import React from "react";
+import React, {useContext} from "react";
+import {AuthContext} from "../auth/AuthContext";
+import { types } from "../types/types";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
+
+
 import "../css/login.css";
 import logo from "../assets/logo.jpg";
 
 const Login = () => {
+
+  const { authState, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [values, handleChange] = useForm({
+    usuario: '',
+    password: '',
+   });
+
+  const { usuario, password } = values;
+
+  const login = (e) => {
+    e.preventDefault();
+
+    //preparar el formdata
+    const formData = new FormData();
+    formData.append("usuario", usuario);
+    formData.append("password", password);
+
+
+    dispatch({
+      type: types.LOGIN,
+      payload: {
+        name: usuario,
+      },
+    });
+  
+    navigate("/");
+  };
+
+
   return (
     <div className="login">
       <div className="container">
@@ -21,7 +58,10 @@ const Login = () => {
                 <input
                   type="text"
                   className="form-control"
+                  name="usuario"
                   placeholder="Usuario"
+                  onChange={handleChange}
+                  value={usuario}
                   aria-label="Usuario"
                   aria-describedby="basic-addon1"
                 />
@@ -36,18 +76,22 @@ const Login = () => {
                 <input
                   type="password"
                   className="form-control"
+                  onChange={handleChange}
+                  name="password"
+                  value={password}
                   placeholder="Clave"
                   aria-label="Clave"
                   aria-describedby="basic-addon2"
                 />
               </div>
               <div className="d-grid gap-2 col-6 mx-auto pt-2">
-                <button className="btn btn-primary" type="button">
+                <button onClick={login} className="btn btn-primary" type="submit">
                   Acceder
                 </button>
               </div>
               <div className="card-footer mt-4 text-center">
                   <p>Si olvidó su clave, por favor contacte al administrador</p>
+                  <p>{authState.user?.name}</p>
                   </div>
             </div>
           </div>

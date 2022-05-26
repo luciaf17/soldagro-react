@@ -1,15 +1,17 @@
-import React from 'react'
+import React, {useContext}  from 'react'
 import {Navigate} from "react-router-dom";
+import {AuthContext} from "../auth/AuthContext";
 
 const PublicRoute = ({children, redirect = "/"}) => {
-  //const {authState} = useContext(AuthContext);
 
-    /* if (authState.isAuthenticated) {
+const {authState} = useContext(AuthContext);
+
+    if (authState.isAuthenticated) {
       return <Navigate to={redirect}/>;
         
-        } else { */
-      //   return children;
-      // }
+        } else {
+        return children;
+      }
      
       }
 export default PublicRoute
