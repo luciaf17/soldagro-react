@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+
 module.exports = (sequelize, DataType) => {
   const Usuario = sequelize.define('usuario', {
     usuario_id: {
@@ -16,13 +18,30 @@ module.exports = (sequelize, DataType) => {
   },
     {
       freezeTableName: true,
-      modelName: 'singularName'
+      modelName: 'singularName',
+      hooks: {
+        beforeCreate: async (usuario) => {
+          if (usuario.password) {
+            const salt = await bcrypt.genSalt()
+            usuario.password = await bcrypt.hash(usuario.password, salt)
+          }
+        },
+        afterCreate: (usuario) => {
+          delete usuario.dataValues.password
+        },
+        afterUpdate: (usuario) => {
+          delete usuario.dataValues.password
+        },
+      }
     }
   )
 
+  Usuario.prototype.compareHash = async function (password, passwordHash) {
+    return await bcrypt.compare(password, passwordHash)
+  }
+
   return Usuario
 }
-
 
 
 /* const sql = require('./index.js')
