@@ -1,13 +1,13 @@
-import {types} from '../types/types';
+import { types } from '../types/types';
 
-export const authInitState = () => 
-localStorage.getItem("auth") 
-? JSON.parse(localStorage.getItem("auth")) 
-: {
-    isAuthenticated: false,
-    user: null,
-    token: ''
-};
+export const authInitState = () =>
+    localStorage.getItem("auth")
+        ? JSON.parse(localStorage.getItem("auth"))
+        : {
+            isAuthenticated: false,
+            usuario: null,
+            token: ''
+        };
 
 export const authReducer = (state, action) => {
     switch (action.type) {
@@ -15,13 +15,15 @@ export const authReducer = (state, action) => {
             return {
                 ...state,
                 isAuthenticated: true,
-                user: action.payload,
+                usuario: action.payload.username,
+                token: action.payload.token
             };
         case types.LOGOUT:
             return {
                 ...state,
                 isAuthenticated: false,
-                user: null,
+                usuario: null,
+                token: ''
             };
         default:
             return state;

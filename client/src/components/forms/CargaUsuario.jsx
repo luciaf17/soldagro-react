@@ -21,11 +21,12 @@ const CargaUsuario = () => {
  console.log(roles);
 
  const [form, handleChange, handleReset] = useForm({
-  nombre: '',
+  username: '',
+  password: '',
   rol: '',
  });
 
- const { nombre, rol } = form;
+ const { username, password, rol } = form;
 
  console.log(form);
  //se envian los datos
@@ -46,7 +47,6 @@ const CargaUsuario = () => {
    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  
   //body: JSON.stringify(formData); otra forma de enviar el formdata
   handleReset();
  };
@@ -67,12 +67,21 @@ const CargaUsuario = () => {
       </h1>
       <hr />
       <FormGroup>
-       <Label>Nombre</Label>
+       <Label>Usuario</Label>
        <Input
         type='text'
         onChange={handleChange}
-        name='nombre'
-        value={nombre}
+        name='username'
+        value={username}
+       />
+      </FormGroup>
+      <FormGroup>
+       <Label>Password</Label>
+       <Input
+        type='text'
+        onChange={handleChange}
+        name='password'
+        value={password}
        />
       </FormGroup>
       <FormGroup>
