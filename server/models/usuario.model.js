@@ -7,14 +7,14 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    nombre: {
+    username: {
       type: DataType.STRING,
       allowNull: false
     },
     password: {
       type: DataType.STRING,
       allowNull: false
-    } 
+    }
   },
     {
       freezeTableName: true,

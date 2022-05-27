@@ -4,12 +4,12 @@ const Rol = db.rol
 
 exports.create = async (request, response) => {
 
-  const { nombre, password, rol } = request.body
+  const { username, password, rol } = request.body
 
   // validar request
-  if (!nombre) {
+  if (!username) {
     response.status(400).send({
-      message: "¡El nombre no puede estar vacío!"
+      message: "¡El username de usuario no puede estar vacío!"
     })
     return
   }
@@ -19,17 +19,17 @@ exports.create = async (request, response) => {
     })
   }
 
-  const usuarioExistente = await Usuario.findOne({ where: { nombre } })
+  const usuarioExistente = await Usuario.findOne({ where: { username } })
   if (usuarioExistente) {
     return response.status(400).send({
-      error: "Ya existe un usuario con el mismo nombre. El usuario debe ser único"
+      error: "Ya existe un usuario con el mismo nombre de usuario. El usuario debe ser único"
     })
   }
 
 
   // crear usuario
   const usuario = {
-    nombre,
+    username,
     password
   }
 
