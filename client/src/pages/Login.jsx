@@ -3,7 +3,6 @@ import {AuthContext} from "../auth/AuthContext";
 import { types } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
-import useGetData from '../hooks/useGetData';
 import {ThreeDots} from 'react-loader-spinner';
 
 import "../css/login.css";
@@ -14,10 +13,6 @@ const Login = () => {
   const { authState, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [usuarios, isLoading, isError] = useGetData(
-    'http://localhost:3001/api/usuarios'
-   );
-
   const [values, handleChange] = useForm({
     usuario: '',
     password: '',
@@ -26,17 +21,25 @@ const Login = () => {
   const { usuario, password } = values;
 
   const login = () => {
+
+    const formData = new FormData();
+    formData.append("usuario", usuario);
+    formData.append("password", password);
+
+    const res = await axios({
+
+      method: 'post',
+      url: 'http://localhost:3001/api/login',
+      data: formData,
+      headers: { 'Content-Type': 'multipart/form-data' },
+     });
+
       if (usuario !== '' && password !== '') {
-        const user = usuarios.find((u) => u.nombre.toString().toLowerCase().trim() === usuario.toLowerCase().trim());
-        console.log(user);
-        if (user) { //acá se debería validar si la password coincide
+        if (user) { //acá se debería validar si el usuario coincide
             dispatch({
               type: types.LOGIN,
               payload: user,
             });
-          const formData = new FormData();
-          formData.append("usuario", usuario);
-          formData.append("password", password);
 
           navigate("/");
         } else {
