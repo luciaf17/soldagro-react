@@ -44,7 +44,10 @@ const CargaUsuario = () => {
    method: 'post',
    url: 'http://localhost:3001/api/usuarios',
    data: formData,
-   headers: { 'Content-Type': 'multipart/form-data' },
+   headers: {
+    'Content-Type': 'multipart/form-data',
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
   });
 
   //body: JSON.stringify(formData); otra forma de enviar el formdata

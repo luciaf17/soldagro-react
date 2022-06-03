@@ -1,6 +1,9 @@
 import { types } from '../types/types';
 
 export const authInitState = () =>
+    // CHEQUEAR EXPIRACION DE TOKEN
+    // Y BORRARLO SI ESTA EXPIRADO Y DESCONECTAR
+    
     localStorage.getItem("auth")
         ? JSON.parse(localStorage.getItem("auth"))
         : {

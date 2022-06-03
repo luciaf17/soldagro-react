@@ -36,7 +36,11 @@ const Login = () => {
     payload: res.data,
    });
   } catch (exception) {
-   alert('Usuario o password inválido');
+   if (exception.response.status === 401) {
+    alert('Usuario o password inválido');
+   } else {
+    alert('Se ha producido un error con la conexión');
+   }
   }
 
   //navigate('/');

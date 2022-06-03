@@ -1,31 +1,31 @@
 import '../src/css/bootstrap.min.css';
-import React, {useEffect, useReducer} from 'react';
-import {AuthContext} from './auth/AuthContext';
+import React, { useEffect, useReducer } from 'react';
+import { AuthContext } from './auth/AuthContext';
 import AppRoutes from "./routes/AppRoutes";
-import {authInitState, authReducer} from './auth/authReducer';
+import { authInitState, authReducer } from './auth/authReducer';
 
 function App() {
 
-const [authState, dispatch] = useReducer(authReducer, {}, authInitState);
+  const [authState, dispatch] = useReducer(authReducer, {}, authInitState);
 
-useEffect(() => {
+  useEffect(() => {
     if (authState.isAuthenticated) {
-        localStorage.setItem("auth", JSON.stringify(authState));
+      localStorage.setItem("auth", JSON.stringify(authState));
     } else {
-        localStorage.removeItem("auth");
+      localStorage.removeItem("auth");
     }
-}, [authState.isAuthenticated]);
+  }, [authState.isAuthenticated]);
 
   return (
     <>
-    <AuthContext.Provider
-      value={{
-        authState,
-        dispatch,
-      }}
-    >
-      <AppRoutes />
-    </AuthContext.Provider>
+      <AuthContext.Provider
+        value={{
+          authState,
+          dispatch,
+        }}
+      >
+        <AppRoutes />
+      </AuthContext.Provider>
     </>
   );
 }
