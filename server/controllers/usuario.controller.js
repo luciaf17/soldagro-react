@@ -4,6 +4,35 @@ const Rol = db.rol
 
 exports.create = async (request, response) => {
 
+  // VALIDO SI EL USUARIO QUE HACE LA REQUEST TIENE ROL ADMINISTRADOR
+  let usuarioRequester = request.usuario.usuario_id
+  usuarioRequester = await Usuario.findByPk(usuarioRequester,
+    {
+      include: {
+        model: Rol,
+        as: 'rol',
+        through: {
+          attributes: []
+        }
+      }
+    }
+  )
+  // se hace JSON.parse(JSON.stringify(obj)) ya que Sequelize
+  // trae un objeto convertido en modelo con una estructura compleja;
+  // una vez convertido en JSON es un 'objeto' más simple, pero a su vez
+  // hay que parsearlo para que sea un objeto js válido y sea manipulable.
+  // No es una buena práctica para clonado de objetos, pero en este caso sirve
+  usuarioRequester = JSON.parse(JSON.stringify(usuarioRequester))
+  // HARDCODEADO! esto es válido si 'Administrador' es el nombre del rol
+  // de Administrador lo cual seguramente vaya a ser así.
+  if (!(usuarioRequester.rol.find(rol => rol.nombre === 'Administrador'))) {
+    return response.status(401).send({
+      error: 'No cuenta con los permisos necesarios para realizar esta acción'
+    })
+  }
+
+  // COMIENZA EFECTIVAMENTE LA REQUEST
+
   const { username, password, rol } = request.body
 
   // validar request

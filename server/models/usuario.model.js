@@ -36,6 +36,7 @@ module.exports = (sequelize, DataType) => {
     }
   )
 
+  // INSTANCE METHOD HECHO CON PROTOTYPE DE JS
   Usuario.prototype.compareHash = async function (password, passwordHash) {
     return await bcrypt.compare(password, passwordHash)
   }
