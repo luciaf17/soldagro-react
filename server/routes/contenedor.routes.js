@@ -1,9 +1,11 @@
 module.exports = app => {
   const contenedor = require('../controllers/contenedor.controller.js')
+  const multer = require('multer')
+  const upload = multer()
 
   const router = require('express').Router()
 
-  router.post('/', contenedor.create)
+  router.post('/', upload.none(), contenedor.create)
   router.get('/', contenedor.findAll)
   router.get('/:id', contenedor.findOne)
   router.put('/:id', contenedor.update)

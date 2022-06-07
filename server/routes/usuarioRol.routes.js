@@ -1,9 +1,11 @@
 module.exports = app => {
   const usuariorol = require('../controllers/usuarioRol.controller.js')
+  const multer = require('multer')
+  const upload = multer()
 
   const router = require('express').Router()
 
-  router.post('/', usuariorol.create)
+  router.post('/', upload.none(), usuariorol.create)
   router.get('/', usuariorol.findAll)
   router.get('/:id', usuariorol.findOne)
   /*   router.put('/:id', usuariorol.update)
