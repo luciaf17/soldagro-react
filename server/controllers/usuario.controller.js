@@ -3,42 +3,13 @@ const Usuario = db.usuario
 const Rol = db.rol
 
 exports.create = async (request, response) => {
-
-  // VALIDO SI EL USUARIO QUE HACE LA REQUEST TIENE ROL ADMINISTRADOR
-  let usuarioRequester = request.usuario.usuario_id
-  usuarioRequester = await Usuario.findByPk(usuarioRequester,
-    {
-      include: {
-        model: Rol,
-        as: 'rol',
-        through: {
-          attributes: []
-        }
-      }
-    }
-  )
-  // se hace JSON.parse(JSON.stringify(obj)) ya que Sequelize
-  // trae un objeto convertido en modelo con una estructura compleja;
-  // una vez convertido en JSON es un 'objeto' más simple, pero a su vez
-  // hay que parsearlo para que sea un objeto js válido y sea manipulable.
-  // No es una buena práctica para clonado de objetos, pero en este caso sirve
-  usuarioRequester = JSON.parse(JSON.stringify(usuarioRequester))
-  // HARDCODEADO! esto es válido si 'Administrador' es el nombre del rol
-  // de Administrador lo cual seguramente vaya a ser así.
-  if (!(usuarioRequester.rol.find(rol => rol.nombre === 'Administrador'))) {
-    return response.status(401).send({
-      error: 'No cuenta con los permisos necesarios para realizar esta acción'
-    })
-  }
-
-  // COMIENZA EFECTIVAMENTE LA REQUEST
-
-  const { username, password, rol } = request.body
-
+  const { username, password } = request.body
+  let roles = request.body.roles
+  console.log(roles)
   // validar request
   if (!username) {
     response.status(400).send({
-      message: "¡El username de usuario no puede estar vacío!"
+      message: "¡El usuario no puede estar vacío!"
     })
     return
   }
@@ -46,7 +17,17 @@ exports.create = async (request, response) => {
     response.status(400).send({
       message: "¡El password no puede estar vacío!"
     })
+    return
   }
+  if (!roles) {
+    response.status(400).send({
+      message: "¡Se debe asignar al menos un rol!"
+    })
+    return
+  }
+
+  //string to array
+  roles = roles.split(',')
 
   const usuarioExistente = await Usuario.findOne({ where: { username } })
   if (usuarioExistente) {
@@ -63,9 +44,11 @@ exports.create = async (request, response) => {
   }
 
   try {
-    const savedUsuario = await Usuario.create(usuario)
-    await savedUsuario.addRol(await Rol.findByPk(rol))
-    response.status(201).json(savedUsuario)
+    const usuarioCreado = await Usuario.create(usuario)
+    for await (const rol of roles) {
+      await usuarioCreado.addRol(await Rol.findByPk(rol))
+    }
+    response.status(201).json(usuarioCreado)
   } catch (error) {
     response.status(500).send({
       message: error.message || "Ha ocurrido un error al intentar crear un usuario."

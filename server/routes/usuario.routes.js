@@ -2,14 +2,14 @@ module.exports = app => {
   const usuario = require('../controllers/usuario.controller.js')
   const multer = require('multer')
   const upload = multer()
-  const router = require('express').Router()
   const middleware = require('../utils/middleware')
+  const router = require('express').Router()
 
-  router.post('/', upload.none(), middleware.tokenExtractor, middleware.userExtractor, usuario.create)
+  router.post('/', upload.none(), middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, usuario.create)
   router.get('/', usuario.findAll)
-  router.get('/:id', usuario.findOne)
-  router.put('/:id', usuario.update)
-  router.delete('/:id', usuario.delete)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, usuario.findOne)
+  router.put('/:id', upload.none(), middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, usuario.update)
+  router.delete('/:id', upload.none(), middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, usuario.delete)
 
   app.use('/api/usuarios', router)
 }

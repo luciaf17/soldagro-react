@@ -7,8 +7,8 @@ exports.create = async (request, response) => {
   // validar request
 
   try {
-    const savedUsuario = await Usuario.findByPk(request.body.usuario_id)
-    await savedUsuario.addRol(await Rol.findByPk(request.body.rol_id))
+    const usuarioExistente = await Usuario.findByPk(request.body.usuario_id)
+    await usuarioExistente.addRol(await Rol.findByPk(request.body.rol_id))
     response.status(201).send("Se ha agregado correctamente el rol al usuario.")
   } catch (error) {
     response.status(500).send({
