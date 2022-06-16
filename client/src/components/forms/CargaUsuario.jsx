@@ -9,34 +9,40 @@ import {
  Row,
  Col,
 } from 'reactstrap';
+import Select from 'react-select';
 import { useForm } from '../../hooks/useForm';
 import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
 const CargaUsuario = () => {
- const [roles, isLoading, isError] = useGetData(
+ const [listaRoles, isLoading, isError] = useGetData(
   'http://localhost:3001/api/roles'
  );
 
- console.log(roles);
-
- const [form, handleChange, handleReset] = useForm({
+ const [form, handleChange, handleChangeMultiple, handleReset] = useForm({
   username: '',
   password: '',
-  rol: '',
+  roles: [],
  });
 
- const { username, password, rol } = form;
+ const { username, password, roles } = form;
 
  console.log(form);
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
-
   //preparar el formdata
   const formData = new FormData();
+
   for (const key in form) {
-   formData.append(key, form[key]);
+   if (typeof form[key] === 'object') {
+    formData.append(
+     key,
+     form[key].map((i) => i.value)
+    );
+   } else {
+    formData.append(key, form[key]);
+   }
   }
 
   //enviar el formdata
@@ -89,19 +95,30 @@ const CargaUsuario = () => {
       </FormGroup>
       <FormGroup>
        <Label>Rol</Label>
-       <Input
+       <Select
+        isMulti
+        name='roles'
+        options={listaRoles.map((rol) => {
+         return { value: rol.rol_id, label: rol.nombre };
+        })}
+        value={roles}
+        onChange={handleChangeMultiple}
+        className='basic-multi-select'
+        classNamePrefix='select'
+       />
+       {/* <Input
         type='select'
         defaultValue={'DEFAULT'}
         onChange={handleChange}
         name='rol'
        >
         <option disabled value={'DEFAULT'}></option>
-        {roles.map((rol) => (
+        {listaRoles.map((rol) => (
          <option key={rol.rol_id} value={rol.rol_id}>
           {rol.nombre}
          </option>
         ))}
-       </Input>
+       </Input> */}
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
        <Button className='btn btn-block' onClick={handleSubmit} color='primary'>
