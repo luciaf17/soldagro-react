@@ -13,7 +13,7 @@ exports.create = async (request, response) => {
   // crear puesto
   const puesto = {
     nombre: request.body.nombre,
-    tipo_puesto_id: request.body.tipo_puesto_id,
+    tipo_puesto: request.body.tipo_puesto,
   }
 
   try {
