@@ -12,8 +12,7 @@ export const useForm = (initialState = {}) => {
     };
 
     const handleChangeMultiple = (options, context) => {
-        /* console.log(context)*/
-        console.log(options)
+
         setValues({
             ...values,
             [context.name]: options.map(o => o)

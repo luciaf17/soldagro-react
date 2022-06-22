@@ -13,7 +13,6 @@ import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
 const CargaContenedor = () => {
-
  const [form, handleChange, handleReset] = useForm({
   nombre: '',
  });
