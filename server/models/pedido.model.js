@@ -5,9 +5,6 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    fecha: {
-      type: DataType.DATE,
-    },
     fecha_entrega: {
       type: DataType.DATE,
     },
@@ -19,6 +16,9 @@ module.exports = (sequelize, DataType) => {
       type: DataType.INTEGER,
     },
     plano: {
+      type: DataType.STRING,
+    },
+    observacion: {
       type: DataType.STRING,
     },
     revision: {

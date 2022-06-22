@@ -7,7 +7,6 @@ exports.create = async (request, response) => {
 
   // crear pedido
   const pedido = {
-    fecha: request.body.fecha,
     fecha_entrega: request.body.fecha_entrega,
     orden_compra: request.body.orden_compra,
     pieza_id: request.body.pieza_id,
@@ -15,6 +14,7 @@ exports.create = async (request, response) => {
     descripcion: request.body.descripcion,
     pedido_id: request.body.pedido_id,
     plano: request.body.plano,
+    observacion: request.body.observacion,
     revision: request.body.revision
   }
 
