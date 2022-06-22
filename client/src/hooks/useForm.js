@@ -11,9 +11,16 @@ export const useForm = (initialState = {}) => {
         });
     };
 
+    const handleChangeMultiple = (options, context) => {
+        setValues({
+            ...values,
+            [context.name]: options.map(o => o)
+        })
+    };
+
     const handleReset = () => {
         setValues(initialState);
     };
 
-    return [values, handleChange, handleReset];
+    return [values, handleChange, handleChangeMultiple, handleReset];
 }

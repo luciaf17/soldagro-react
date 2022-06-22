@@ -13,7 +13,6 @@ import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
 const CrearTipoPuesto = () => {
-
  const [form, handleChange, handleReset] = useForm({
   tipo: '',
  });
@@ -58,15 +57,15 @@ const CrearTipoPuesto = () => {
       <hr />
       <FormGroup>
        <Label>Tipo</Label>
-       <Input
-        type='text'
-        onChange={handleChange}
-        name='tipo'
-        value={tipo}
-       />
+       <Input type='text' onChange={handleChange} name='tipo' value={tipo} />
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' type='submit'  onClick={handleSubmit} color='primary'>
+       <Button
+        className='btn btn-block'
+        type='submit'
+        onClick={handleSubmit}
+        color='primary'
+       >
         Guardar
        </Button>
        <Button

@@ -14,17 +14,17 @@ import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
 const CrearContenedor = () => {
-
  const [form, handleChange, handleReset] = useForm({
   nombre: '',
-  puesto: ''
+  puesto: '',
  });
 
- const { nombre} = form;
+ const { nombre } = form;
 
  const [puestos, isLoading, isError] = useGetData(
-    'http://localhost:3001/api/puestos'
-   );
+  'http://localhost:3001/api/puestos'
+ );
+
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -87,7 +87,12 @@ const CrearContenedor = () => {
        </Input>
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' onClick={handleSubmit} type='submit' color='primary'>
+       <Button
+        className='btn btn-block'
+        onClick={handleSubmit}
+        type='submit'
+        color='primary'
+       >
         Guardar
        </Button>
        <Button
