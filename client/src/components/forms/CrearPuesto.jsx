@@ -10,19 +10,24 @@ import {
   Col,
 } from "reactstrap";
 import { useForm } from "../../hooks/useForm";
-//import axios from "axios";
+import useGetData from '../../hooks/useGetData';
+import axios from "axios";
 
-const CargaPuesto = () => {
+const CrearPuesto = () => {
 
   const [form, handleChange, handleReset] = useForm({
     nombre: "",
-    tipo: "",
+    tipo_puesto: ""
   });
 
-  const {nombre, tipo } = form;
+  const {nombre} = form;
+
+  const [tiposPuestos, isLoading, isError] = useGetData(
+    'http://localhost:3001/api/tipospuestos'
+   );
   
   //se envian los datos
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     //preparar el formdata
@@ -33,8 +38,12 @@ const CargaPuesto = () => {
     handleReset();
     console.log(form);
     //enviar el formdata
-    //axios.post('http://localhost:3000/api/cargaPieza', formData);
-    //body: JSON.stringify(formData); otra forma de enviar el formdata
+    const res = await axios({
+      method: "post",
+      url: "http://localhost:3001/api/puestos",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   };
 
   return (
@@ -49,7 +58,7 @@ const CargaPuesto = () => {
         >
           <Form className="create-form form-control-md" action="">
             <h1 className="text-center">
-              <span className="font-weight-bold text-center">Cargar Puesto</span>
+              <span className="font-weight-bold text-center">Crear Puesto</span>
             </h1>
             <hr />
             <FormGroup>
@@ -64,17 +73,25 @@ const CargaPuesto = () => {
             <FormGroup>
               <Label>Tipo</Label>
               <Input
-                type="select"
-                onChange={handleChange}
-                name="tipo"
-                value={tipo}
-                />
+              type='select'
+              defaultValue={'DEFAULT'}
+              onChange={handleChange}
+              name='tipo_puesto'
+              >
+              <option disabled value={'DEFAULT'}></option>
+              {tiposPuestos.map((tipoPuesto) => (
+              <option key={tipoPuesto.tipo_puesto_id} value={tipoPuesto.tipo_puesto_id}>
+                {tipoPuesto.tipo}
+              </option>
+              ))}
+            </Input>
             </FormGroup>
             <div className="d-grid gap-2 col-3 mx-auto pt-2">
               <Button
                 className="btn btn-block"
                 onClick={handleSubmit}
                 color="primary"
+                type='submit' 
               >
                 Guardar
               </Button>
@@ -93,4 +110,4 @@ const CargaPuesto = () => {
   );
 };
 
-export default CargaPuesto;
+export default CrearPuesto;

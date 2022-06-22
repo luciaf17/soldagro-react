@@ -3,7 +3,7 @@ const Puesto = db.puesto
 
 exports.create = async (request, response) => {
   // validar request
-  if (!request.body.tipo_puesto_id) {
+  if (!request.body.tipo_puesto) {
     response.status(400).send({
       message: "El id del puesto del puesto no debe estar vacío!"
     })
@@ -13,7 +13,7 @@ exports.create = async (request, response) => {
   // crear puesto
   const puesto = {
     nombre: request.body.nombre,
-    tipo_puesto_id: request.body.tipo_puesto_id,
+    tipo_puesto_id: request.body.tipo_puesto,
   }
 
   try {

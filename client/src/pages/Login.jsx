@@ -98,9 +98,9 @@ const Login = () => {
          </div>
          <div className='d-grid gap-2 col-6 mx-auto pt-2'>
           <button
+           type='submit'
            onClick={handleLogin}
            className='btn btn-primary'
-           type='submit'
           >
            Acceder
           </button>

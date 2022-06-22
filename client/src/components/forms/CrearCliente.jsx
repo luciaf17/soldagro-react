@@ -10,9 +10,9 @@ import {
   Col,
 } from "reactstrap";
 import { useForm } from "../../hooks/useForm";
-//import axios from "axios";
+import axios from "axios";
 
-const CargaCliente = () => {
+const CrearCliente = () => {
 
   const [form, handleChange, handleReset] = useForm({
     nombre: "",
@@ -25,21 +25,26 @@ const CargaCliente = () => {
 
   const {nombre, direccion, localidad, contacto, iva, cuit } = form;
   
-  //se envian los datos
-  const handleSubmit = (e) => {
-    e.preventDefault();
+   //se envian los datos
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    //preparar el formdata
-    const formData = new FormData();
-    for (const key in form) {
-      formData.append(key, form[key]);
-    }
-    handleReset();
-    console.log(form);
-    //enviar el formdata
-    //axios.post('http://localhost:3000/api/cargaPieza', formData);
-    //body: JSON.stringify(formData); otra forma de enviar el formdata
-  };
+  //preparar el formdata
+  const formData = new FormData();
+  for (const key in form) {
+   formData.append(key, form[key]);
+  }
+
+  //enviar el formdata
+  const res = await axios({
+   method: 'post',
+   url: 'http://localhost:3001/api/clientes',
+   data: formData,
+   headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  handleReset();
+ };
 
   return (
     <Container fluid="fluid">
@@ -53,7 +58,7 @@ const CargaCliente = () => {
         >
           <Form className="create-form form-control-md" action="">
             <h1 className="text-center">
-              <span className="font-weight-bold text-center">Cargar Cliente</span>
+              <span className="font-weight-bold text-center">Crear Cliente</span>
             </h1>
             <hr />
             <FormGroup>
@@ -113,6 +118,7 @@ const CargaCliente = () => {
             <div className="d-grid gap-2 col-3 mx-auto pt-2">
               <Button
                 className="btn btn-block"
+                type='submit' 
                 onClick={handleSubmit}
                 color="primary"
               >
@@ -133,4 +139,4 @@ const CargaCliente = () => {
   );
 };
 
-export default CargaCliente;
+export default CrearCliente;

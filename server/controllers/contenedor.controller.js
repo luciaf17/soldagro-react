@@ -8,7 +8,7 @@ exports.create = async (request, response) => {
       message: "El nombre no puede estar vacío!"
     })
     return
-  } else if (!request.body.puesto_id) {
+  } else if (!request.body.puesto) {
     response.status(400).send({
       message: "El puesto no puede estar vacío!"
     })
@@ -18,7 +18,7 @@ exports.create = async (request, response) => {
   // crear contenedor
   const contenedor = {
     nombre: request.body.nombre,
-    puesto_id: request.body.puesto_id
+    puesto_id: request.body.puesto
   }
 
   try {

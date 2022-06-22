@@ -54,23 +54,29 @@ const Navigationbar = () => {
               Crear
             </DropdownToggle>
             <DropdownMenu end>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaPieza" >
-                Carga Pieza
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearPieza" >
+                Crear Pieza
               </DropdownItem>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaCliente" >
-                Carga Cliente
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearCliente" >
+                Crear Cliente
               </DropdownItem>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaPuesto" >
-                Carga Puesto
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearPuesto" >
+                Crear Puesto
               </DropdownItem>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaUsuario" >
-                Carga Usuario
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearUsuario" >
+              Crear Usuario
               </DropdownItem>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaRol" >
-                Carga Rol
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearRol" >
+              Crear Rol
               </DropdownItem>
-              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CargaContenedor" >
-                Carga Contenedor
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearContenedor" >
+              Crear Contenedor
+              </DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearPedido" >
+              Crear Pedido
+              </DropdownItem>
+              <DropdownItem activeclassname="active" tag={RRNavLink} to="/CrearTipoPuesto" >
+              Crear Tipo Puesto
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

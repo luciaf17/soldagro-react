@@ -14,8 +14,7 @@ import {
 //import axios from "axios";
 import { useForm } from "../../hooks/useForm";
 
-const CargaPieza = () => {
-  //usar reduce??
+const CrearPieza = () => {
 
   const [form, handleChange, handleReset] = useForm({
     codCliente: "",
@@ -67,7 +66,7 @@ const CargaPieza = () => {
         >
           <Form className="create-form form-control-md" action="">
             <h1 className="text-center">
-              <span className="font-weight-bold text-center">Cargar Pieza</span>
+              <span className="font-weight-bold text-center">Crear Pieza</span>
             </h1>
             <hr />
             <FormGroup>
@@ -211,6 +210,7 @@ const CargaPieza = () => {
             <div className="d-grid gap-2 col-6 mx-auto pt-2">
               <Button
                 className="btn btn-block"
+                type='submit' 
                 onClick={handleSubmit}
                 color="primary"
               >
@@ -231,4 +231,4 @@ const CargaPieza = () => {
   );
 };
 
-export default CargaPieza;
+export default CrearPieza;

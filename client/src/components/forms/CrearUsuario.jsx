@@ -13,7 +13,8 @@ import { useForm } from '../../hooks/useForm';
 import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
-const CargaUsuario = () => {
+const CrearUsuario = () => {
+    
  const [roles, isLoading, isError] = useGetData(
   'http://localhost:3001/api/roles'
  );
@@ -66,7 +67,7 @@ const CargaUsuario = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Cargar Usuario</span>
+       <span className='font-weight-bold text-center'>Crear Usuario</span>
       </h1>
       <hr />
       <FormGroup>
@@ -104,7 +105,7 @@ const CargaUsuario = () => {
        </Input>
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' onClick={handleSubmit} color='primary'>
+       <Button className='btn btn-block' onClick={handleSubmit} type='submit'  color='primary'>
         Guardar
        </Button>
        <Button
@@ -123,4 +124,4 @@ const CargaUsuario = () => {
  );
 };
 
-export default CargaUsuario;
+export default CrearUsuario;

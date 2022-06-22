@@ -1,17 +1,18 @@
 import Login from "../pages/Login";
-import CargaPieza from "../components/forms/CargaPieza";
+import CrearPieza from "../components/forms/CrearPieza";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "../pages/Home";
 import Navigationbar from "../pages/Navigationbar";
-import CargaPedido from "../components/forms/CargaPedido";
-import CargaCliente from "../components/forms/CargaCliente";
-import CargaPuesto from "../components/forms/CargaPuesto";
-import CargaUsuario from "../components/forms/CargaUsuario";
+import CrearPedido from "../components/forms/CrearPedido";
+import CrearCliente from "../components/forms/CrearCliente";
+import CrearPuesto from "../components/forms/CrearPuesto";
+import CrearUsuario from "../components/forms/CrearUsuario";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
-import CargaRol from "../components/forms/CargaRol";
-import CargaContenedor from "../components/forms/CargaContenedor";
+import CrearRol from "../components/forms/CrearRol";
+import CrearContenedor from "../components/forms/CrearContenedor";
 import PublicRoute from "./PublicRoute";
+import CrearTipoPuesto from "../components/forms/CrearTipoPuesto";
 
 const AppRoutes = () => {
   return (
@@ -24,13 +25,15 @@ const AppRoutes = () => {
               <Navigationbar />
               <Routes>
                 <Route exact path="/" element={<Home />} />
-                <Route exact path="/CargaPieza" element={<CargaPieza />} />
-                <Route exact path="/CargaPedido" element={<CargaPedido />} />
-                <Route exact path="/CargaCliente" element={<CargaCliente />} />
-                <Route exact path="/CargaPuesto" element={<CargaPuesto />} />
-                <Route exact path="/CargaUsuario" element={<CargaUsuario />} />
-                <Route exact path="/CargaRol" element={<CargaRol />} />
-                <Route exact path="/CargaContenedor" element={<CargaContenedor />} />
+                <Route exact path="/CrearPieza" element={<CrearPieza />} />
+                <Route exact path="/CrearPedido" element={<CrearPedido />} />
+                <Route exact path="/CrearCliente" element={<CrearCliente />} />
+                <Route exact path="/CrearPuesto" element={<CrearPuesto />} />
+                <Route exact path="/CrearUsuario" element={<CrearUsuario />} />
+                <Route exact path="/CrearRol" element={<CrearRol />} />
+                <Route exact path="/CrearContenedor" element={<CrearContenedor />} />
+                <Route exact path="/CrearPedido" element={<CrearPedido />} />
+                <Route exact path="/CrearTipoPuesto" element={<CrearTipoPuesto />} />
               </Routes>
             </ProtectedRoutes>
           }

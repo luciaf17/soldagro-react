@@ -10,17 +10,21 @@ import {
  Col,
 } from 'reactstrap';
 import { useForm } from '../../hooks/useForm';
+import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
-const CargaRol = () => {
+const CrearContenedor = () => {
 
  const [form, handleChange, handleReset] = useForm({
   nombre: '',
+  puesto: ''
  });
 
- const { nombre } = form;
+ const { nombre} = form;
 
- console.log(form);
+ const [puestos, isLoading, isError] = useGetData(
+    'http://localhost:3001/api/puestos'
+   );
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -34,7 +38,7 @@ const CargaRol = () => {
   //enviar el formdata
   const res = await axios({
    method: 'post',
-   url: 'http://localhost:3001/api/roles',
+   url: 'http://localhost:3001/api/contenedores',
    data: formData,
    headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -54,7 +58,7 @@ const CargaRol = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Cargar Rol</span>
+       <span className='font-weight-bold text-center'>Crear Contenedor</span>
       </h1>
       <hr />
       <FormGroup>
@@ -66,8 +70,24 @@ const CargaRol = () => {
         value={nombre}
        />
       </FormGroup>
+      <FormGroup>
+       <Label>Puesto</Label>
+       <Input
+        type='select'
+        defaultValue={'DEFAULT'}
+        onChange={handleChange}
+        name='puesto'
+       >
+        <option disabled value={'DEFAULT'}></option>
+        {puestos.map((puesto) => (
+         <option key={puesto.puesto_id} value={puesto.puesto_id}>
+          {puesto.nombre}
+         </option>
+        ))}
+       </Input>
+      </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' onClick={handleSubmit} color='primary'>
+       <Button className='btn btn-block' onClick={handleSubmit} type='submit' color='primary'>
         Guardar
        </Button>
        <Button
@@ -86,4 +106,4 @@ const CargaRol = () => {
  );
 };
 
-export default CargaRol;
+export default CrearContenedor;

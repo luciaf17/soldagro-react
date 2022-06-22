@@ -12,15 +12,14 @@ import {
 import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
-const CargaContenedor = () => {
+const CrearTipoPuesto = () => {
 
  const [form, handleChange, handleReset] = useForm({
-  nombre: '',
+  tipo: '',
  });
 
- const { nombre } = form;
+ const { tipo } = form;
 
- console.log(form);
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -34,7 +33,7 @@ const CargaContenedor = () => {
   //enviar el formdata
   const res = await axios({
    method: 'post',
-   url: 'http://localhost:3001/api/contenedores',
+   url: 'http://localhost:3001/api/tipospuestos',
    data: formData,
    headers: { 'Content-Type': 'multipart/form-data' },
   });
@@ -54,20 +53,20 @@ const CargaContenedor = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Cargar Contenedor</span>
+       <span className='font-weight-bold text-center'>Crear Tipo Puesto</span>
       </h1>
       <hr />
       <FormGroup>
-       <Label>Nombre</Label>
+       <Label>Tipo</Label>
        <Input
         type='text'
         onChange={handleChange}
-        name='nombre'
-        value={nombre}
+        name='tipo'
+        value={tipo}
        />
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' onClick={handleSubmit} color='primary'>
+       <Button className='btn btn-block' type='submit'  onClick={handleSubmit} color='primary'>
         Guardar
        </Button>
        <Button
@@ -86,4 +85,4 @@ const CargaContenedor = () => {
  );
 };
 
-export default CargaContenedor;
+export default CrearTipoPuesto;
