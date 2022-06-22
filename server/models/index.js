@@ -23,7 +23,7 @@ db.tipoPuesto = require('./tipoPuesto.model')(sequelize, Sequelize)
 db.puesto = require('./puesto.model')(sequelize, Sequelize)
 db.usuario = require('./usuario.model')(sequelize, Sequelize)
 db.rol = require('./rol.model')(sequelize, Sequelize)
-db.sector = require('./sector.model')(sequelize, Sequelize)
+db.tipoContenedor = require('./tipoContenedor.model')(sequelize, Sequelize)
 db.contenedor = require('./contenedor.model')(sequelize, Sequelize)
 db.deposito = require('./deposito.model')(sequelize, Sequelize)
 db.envase = require('./envase.model')(sequelize, Sequelize)
@@ -87,24 +87,9 @@ db.contenedor.belongsTo(db.puesto, {
 //------------------------------//
 
 // CONTENEDOR
-// uno a muchos
-db.contenedor.hasMany(db.sector, {
-  foreignKey: 'contenedor_id'
-})
-// contenedor_id fk en sector
-db.sector.belongsTo(db.contenedor, {
-  foreignKey: 'contenedor_id'
-})
-
-//------------------------------//
-
-// SECTOR
-db.sector.hasMany(db.ordenDeTrabajo, {
-  foreignKey: 'sector_id'
-})
-
-db.ordenDeTrabajo.belongsTo(db.sector, {
-  foreignKey: 'sector_id'
+// tipo_contenedor_id fk en contenedor
+db.contenedor.belongsTo(db.tipoContenedor, {
+  foreignKey: 'tipo_contenedor_id'
 })
 
 //------------------------------//
