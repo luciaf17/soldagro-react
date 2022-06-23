@@ -3,9 +3,8 @@ const Usuario = db.usuario
 const Rol = db.rol
 
 exports.create = async (request, response) => {
-  const { username, password } = request.body
-  let roles = request.body.roles
-
+  const { username, password, roles } = request.body
+  console.log(request.body)
   // validar request
   if (!username) {
     response.status(400).send({
@@ -26,16 +25,12 @@ exports.create = async (request, response) => {
     return
   }
 
-  //string to array
-  roles = roles.split(',')
-
   const usuarioExistente = await Usuario.findOne({ where: { username } })
   if (usuarioExistente) {
     return response.status(400).send({
       error: "Ya existe un usuario con el mismo nombre de usuario. El usuario debe ser único"
     })
   }
-
 
   // crear usuario
   const usuario = {
@@ -46,7 +41,7 @@ exports.create = async (request, response) => {
   try {
     const usuarioCreado = await Usuario.create(usuario)
     for await (const rol of roles) {
-      await usuarioCreado.addRol(await Rol.findByPk(rol))
+      await usuarioCreado.addRol(await Rol.findByPk(rol.value))
     }
     response.status(201).json(usuarioCreado)
   } catch (error) {
