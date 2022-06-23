@@ -30,32 +30,23 @@ const CrearUsuario = () => {
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
-  //preparar el formdata
-  const formData = new FormData();
 
-  for (const key in form) {
-   if (typeof form[key] === 'object') {
-    formData.append(
-     key,
-     form[key].map((i) => i.value)
-    );
-   } else {
-    formData.append(key, form[key]);
+  const nuevoUsuario = {
+   username,
+   password,
+   roles,
+  };
+
+  const res = await axios.post(
+   'http://localhost:3001/api/usuarios',
+   nuevoUsuario,
+   {
+    headers: {
+     Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+    },
    }
-  }
+  );
 
-  //enviar el formdata
-  const res = await axios({
-   method: 'post',
-   url: 'http://localhost:3001/api/usuarios',
-   data: formData,
-   headers: {
-    'Content-Type': 'multipart/form-data',
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
-   },
-  });
-
-  //body: JSON.stringify(formData); otra forma de enviar el formdata
   handleReset();
  };
 
