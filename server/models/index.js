@@ -91,6 +91,14 @@ db.contenedor.belongsTo(db.puesto, {
 db.contenedor.belongsTo(db.tipoContenedor, {
   foreignKey: 'tipo_contenedor_id'
 })
+// uno a muchos ordenes de trabajo
+db.contenedor.hasMany(db.ordenDeTrabajo, {
+  foreignKey: 'contenedor_id'
+})
+// contenedor_id fk en orden_de_trabajo
+db.ordenDeTrabajo.belongsTo(db.contenedor, {
+  foreignKey: 'contenedor_id'
+})
 
 //------------------------------//
 
