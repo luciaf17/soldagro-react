@@ -47,6 +47,7 @@ const CrearUsuario = () => {
    }
   );
 
+  console.log(res);
   handleReset();
  };
 

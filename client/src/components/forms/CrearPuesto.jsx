@@ -98,12 +98,7 @@ const CrearPuesto = () => {
        >
         Guardar
        </Button>
-       <Button
-        className='btn btn-block'
-        type='reset'
-        onClick={handleReset}
-        color='primary'
-       >
+       <Button className='btn btn-block' onClick={handleReset} color='primary'>
         Reset
        </Button>
       </div>
