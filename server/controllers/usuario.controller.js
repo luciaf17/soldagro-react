@@ -4,7 +4,7 @@ const Rol = db.rol
 
 exports.create = async (request, response) => {
   const { username, password, roles } = request.body
-  console.log(request.body)
+
   // validar request
   if (!username) {
     response.status(400).send({
