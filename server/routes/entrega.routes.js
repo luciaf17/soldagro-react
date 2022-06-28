@@ -1,15 +1,14 @@
 module.exports = app => {
   const entrega = require('../controllers/entrega.controller.js')
-  const multer = require('multer')
-  const upload = multer()
 
+  const middleware = require('../utils/middleware')
   const router = require('express').Router()
 
-  router.post('/', upload.none(), entrega.create)
-  router.get('/', entrega.findAll)
-  router.get('/:id', entrega.findOne)
-  router.put('/:id', entrega.update)
-  router.delete('/:id', entrega.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, entrega.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, entrega.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, entrega.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, entrega.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, entrega.delete)
 
   app.use('/api/entregas', router)
 }

@@ -1,15 +1,14 @@
 module.exports = app => {
   const estructura = require('../controllers/estructura.controller')
-  const multer = require('multer')
-  const upload = multer()
 
+  const middleware = require('../utils/middleware')
   const router = require('express').Router()
 
-  router.post('/', upload.none(), estructura.create)
-  router.get('/', estructura.findAll)
-  router.get('/:id', estructura.findOne)
-  router.put('/:id', estructura.update)
-  router.delete('/:id', estructura.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, estructura.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, estructura.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, estructura.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, estructura.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, estructura.delete)
 
   app.use('/api/estructuras', router)
 }

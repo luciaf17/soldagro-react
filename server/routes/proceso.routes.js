@@ -1,15 +1,14 @@
 module.exports = app => {
   const proceso = require('../controllers/proceso.controller')
-  const multer = require('multer')
-  const upload = multer()
 
+  const middleware = require('../utils/middleware')
   const router = require('express').Router()
 
-  router.post('/', upload.none(), proceso.create)
-  router.get('/', proceso.findAll)
-  router.get('/:id', proceso.findOne)
-  router.put('/:id', proceso.update)
-  router.delete('/:id', proceso.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, proceso.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, proceso.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, proceso.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, proceso.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, proceso.delete)
 
   app.use('/api/procesos', router)
 }

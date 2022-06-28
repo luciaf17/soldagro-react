@@ -1,15 +1,14 @@
 module.exports = app => {
   const contenedor = require('../controllers/contenedor.controller.js')
-  const multer = require('multer')
-  const upload = multer()
+  const middleware = require('../utils/middleware')
 
   const router = require('express').Router()
 
-  router.post('/', upload.none(), contenedor.create)
-  router.get('/', contenedor.findAll)
-  router.get('/:id', contenedor.findOne)
-  router.put('/:id', contenedor.update)
-  router.delete('/:id', contenedor.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, contenedor.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, contenedor.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, contenedor.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, contenedor.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, contenedor.delete)
 
   app.use('/api/contenedores', router)
 }

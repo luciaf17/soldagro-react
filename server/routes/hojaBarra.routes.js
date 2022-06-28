@@ -1,15 +1,14 @@
 module.exports = app => {
   const hojaBarra = require('../controllers/hojaBarra.controller.js')
-  const multer = require('multer')
-  const upload = multer()
 
+  const middleware = require('../utils/middleware')
   const router = require('express').Router()
 
-  router.post('/', upload.none(), hojaBarra.create)
-  router.get('/', hojaBarra.findAll)
-  router.get('/:id', hojaBarra.findOne)
-  router.put('/:id', hojaBarra.update)
-  router.delete('/:id', hojaBarra.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, hojaBarra.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, hojaBarra.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, hojaBarra.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, hojaBarra.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, hojaBarra.delete)
 
   app.use('/api/hojasbarras', router)
 }

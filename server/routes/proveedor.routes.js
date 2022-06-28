@@ -1,15 +1,14 @@
 module.exports = app => {
   const proveedor = require('../controllers/proveedor.controller.js')
-  const multer = require('multer')
-  const upload = multer()
 
+  const middleware = require('../utils/middleware')
   const router = require('express').Router()
 
-  router.post('/', upload.none(), proveedor.create)
-  router.get('/', proveedor.findAll)
-  router.get('/:id', proveedor.findOne)
-  router.put('/:id', proveedor.update)
-  router.delete('/:id', proveedor.delete)
+  router.post('/', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, proveedor.create)
+  router.get('/', middleware.tokenExtractor, middleware.userExtractor, proveedor.findAll)
+  router.get('/:id', middleware.tokenExtractor, middleware.userExtractor, proveedor.findOne)
+  router.put('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, proveedor.update)
+  router.delete('/:id', middleware.tokenExtractor, middleware.userExtractor, middleware.adminValidator, proveedor.delete)
 
   app.use('/api/proveedores', router)
 }
