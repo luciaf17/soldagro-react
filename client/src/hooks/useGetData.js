@@ -14,7 +14,11 @@ const useGetData = (url) => {
 
   const getData = async () => {
     try {
-      const res = await axios(url);
+      const res = await axios(url, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+        },
+      });
 
       setState({
         data: res.data,
