@@ -13,8 +13,7 @@ import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
 const CrearRol = () => {
-
- const [form, handleChange, handleReset] = useForm({
+ const [form, handleChange, , handleReset] = useForm({
   nombre: '',
  });
 
@@ -25,18 +24,12 @@ const CrearRol = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  //preparar el formdata
-  const formData = new FormData();
-  for (const key in form) {
-   formData.append(key, form[key]);
-  }
+  const rol = { nombre };
 
-  //enviar el formdata
-  const res = await axios({
-   method: 'post',
-   url: 'http://localhost:3001/api/roles',
-   data: formData,
-   headers: { 'Content-Type': 'multipart/form-data' },
+  const res = await axios.post('http://localhost:3001/api/roles', rol, {
+   headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
   });
 
   handleReset();
@@ -67,7 +60,12 @@ const CrearRol = () => {
        />
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
-       <Button className='btn btn-block' type='submit'  onClick={handleSubmit} color='primary'>
+       <Button
+        className='btn btn-block'
+        type='submit'
+        onClick={handleSubmit}
+        color='primary'
+       >
         Guardar
        </Button>
        <Button

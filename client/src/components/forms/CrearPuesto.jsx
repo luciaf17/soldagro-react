@@ -29,18 +29,12 @@ const CrearPuesto = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  //preparar el formdata
-  const formData = new FormData();
-  for (const key in form) {
-   formData.append(key, form[key]);
-  }
-  console.log(form);
-  //enviar el formdata
-  const res = await axios({
-   method: 'post',
-   url: 'http://localhost:3001/api/puestos',
-   data: formData,
-   headers: { 'Content-Type': 'multipart/form-data' },
+  const puesto = { nombre, tipo_puesto };
+
+  const res = await axios.post('http://localhost:3001/api/puestos', puesto, {
+   headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
   });
 
   handleReset();
