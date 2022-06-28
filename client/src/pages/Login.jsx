@@ -20,17 +20,10 @@ const Login = () => {
  const { username, password } = values;
 
  const handleLogin = async () => {
-  const formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
+  const login = { username, password };
 
   try {
-   const res = await axios({
-    method: 'post',
-    url: 'http://localhost:3001/api/login',
-    data: formData,
-    headers: { 'Content-Type': 'multipart/form-data' },
-   });
+   const res = await axios.post('http://localhost:3001/api/login', login);
    dispatch({
     type: types.LOGIN,
     payload: res.data,
