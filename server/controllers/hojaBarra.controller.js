@@ -14,9 +14,9 @@ exports.create = async (request, response) => {
   const hojaBarra = {
     largo: request.body.largo || null,
     ancho: request.body.ancho || null,
-    proveedor_id: request.body.proveedor_id || null,
-    materia_prima_id: request.body.materia_prima_id || null,
-    deposito_id: request.body.deposito_id || null,
+    proveedor_id: request.body.proveedor || null,
+    materia_prima_id: request.body.materia_prima || null,
+    deposito_id: request.body.deposito || null,
     stock: request.body.stock || null,
   }
 

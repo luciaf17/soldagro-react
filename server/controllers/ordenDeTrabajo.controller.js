@@ -7,19 +7,18 @@ exports.create = async (request, response) => {
 
   // crear orden de trabajo
   const ordenDeTrabajo = {
-    despacho_id: request.body.despacho_id,
+    despacho_id: request.body.despacho,
     plano: request.body.plano,
     revision: request.body.revision,
     orden_compra: request.body.orden_compra,
     cantidad: request.body.cantidad,
-    orden_de_trabajo_id: request.body.orden_de_trabajo_id,
-    deposito_id: request.body.deposito_id,
-    sector_id: request.body.sector_id,
+    orden_de_trabajo_id: request.body.orden_de_trabajo,
+    deposito_id: request.body.deposito,
     cantidad_buenas: request.body.cantidad_buenas,
     cantidad_malas: request.body.cantidad_malas,
     fecha_inicio: request.body.fecha_inicio,
     fecha_fin: request.body.fecha_fin,
-    responsable: request.body.usuario_id
+    responsable: request.body.usuario
   }
 
   try {

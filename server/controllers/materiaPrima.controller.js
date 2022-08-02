@@ -12,7 +12,7 @@ exports.create = async (request, response) => {
 
   // crear materia prima
   const materiaPrima = {
-    material_id: request.body.material_id,
+    material_id: request.body.material,
     nominal: request.body.nominal || null,
     unidad_medida: request.body.unidad_medida || null,
     forma: request.body.forma || null,

@@ -9,12 +9,12 @@ exports.create = async (request, response) => {
 
   //chequear orden_de_compra_id (pedido_id u otra cosa?)
   const entrega = {
-    orden_de_trabajo_id: request.body.orden_de_trabajo_id,
-    orden_de_compra_id: request.body.orden_de_compra_id,
-    despacho_id: request.body.despacho_id,
+    orden_de_trabajo_id: request.body.orden_de_trabajo,
+    orden_de_compra_id: request.body.orden_de_compra,
+    despacho_id: request.body.despacho_,
     fecha_entrega: request.body.fecha_entrega,
     codigo_pieza_cliente: request.body.codigo_pieza_cliente,
-    pieza_id: request.body.pieza_id,
+    pieza_id: request.body.pieza,
     cant_pedidas: request.body.cant_pedidas,
     cant_entregadas: request.body.cant_entregadas,
     saldo: request.body.saldo,

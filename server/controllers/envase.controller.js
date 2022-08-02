@@ -12,11 +12,11 @@ exports.create = async (request, response) => {
 
   // crear envase
   const envase = {
-    producto_id: request.body.producto_id,
+    producto_id: request.body.producto,
     producto_tipo: request.body.producto_tipo || null,
     capacidad: request.body.capacidad || null,
     unidad_medida: request.body.unidad_medida || null,
-    deposito_id: request.body.deposito_id || null,
+    deposito_id: request.body.deposito || null,
   }
 
   try {

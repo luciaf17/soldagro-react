@@ -8,7 +8,7 @@ exports.create = async (request, response) => {
   // crear conjunto
   const conjunto = {
     descripcion: request.body.descripcion,
-    deposito_id: request.body.deposito_id,
+    deposito_id: request.body.deposito,
   }
   try {
     const savedConjunto = await Conjunto.create(conjunto)

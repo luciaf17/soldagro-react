@@ -12,7 +12,7 @@ exports.create = async (request, response) => {
     pieza_id: request.body.pieza_id,
     cantidad: request.body.cantidad,
     descripcion: request.body.descripcion,
-    pedido_id: request.body.pedido_id,
+    pedido_id: request.body.pedido,
     plano: request.body.plano,
     observacion: request.body.observacion,
     revision: request.body.revision

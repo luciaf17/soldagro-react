@@ -17,8 +17,8 @@ exports.create = async (request, response) => {
     tamanio: request.body.tamanio || null,
     unidad_medida: request.body.unidad_medida || null,
     precio: request.body.precio || null,
-    proveedor_id: request.body.proveedor_id || null,
-    deposito_id: request.body.deposito_id || null,
+    proveedor_id: request.body.proveedor || null,
+    deposito_id: request.body.deposito || null,
     stock: request.body.stock || null,
   }
 
