@@ -15,19 +15,19 @@ exports.create = async (request, response) => {
 
   // crear estructura
   const estructura = {
-    proceso1_id: request.body.proceso1_id,
+    proceso1_id: request.body.proceso1,
     tiempo1: request.body.tiempo1 || null,
     descripcion1: request.body.descripcion1,
-    proceso2_id: request.body.proceso2_id || null,
+    proceso2_id: request.body.proceso2 || null,
     tiempo2: request.body.tiempo2 || null,
     descripcion2: request.body.descripcion2 || null,
-    proceso3_id: request.body.proceso3_id || null,
+    proceso3_id: request.body.proceso3 || null,
     tiempo3: request.body.tiempo3 || null,
     descripcion3: request.body.descripcion3 || null,
-    proceso4_id: request.body.proceso4_id || null,
+    proceso4_id: request.body.proceso4 || null,
     tiempo4: request.body.tiempo4 || null,
     descripcion4: request.body.descripcion4 || null,
-    proceso5_id: request.body.proceso5_id || null,
+    proceso5_id: request.body.proceso5 || null,
     tiempo5: request.body.tiempo5 || null,
     descripcion5: request.body.descripcion5 || null,
   }

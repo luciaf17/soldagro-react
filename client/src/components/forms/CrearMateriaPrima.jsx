@@ -14,26 +14,25 @@ import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
 const CrearMateriaPrima = () => {
- const [form, handleChange, ,handleReset] = useForm({
+ const [form, handleChange, , handleReset] = useForm({
   nominal: '',
   unidad_medida: '',
   forma: '',
   espesor: 0,
-  material_id : ''
+  material: '',
  });
 
- const { nominal, unidad_medida, forma, espesor, material_id } = form;
+ const { nominal, unidad_medida, forma, espesor, material } = form;
 
  const [materiales, isLoading, isError] = useGetData(
-    'http://localhost:3001/api/materiales'
-    );
-
+  'http://localhost:3001/api/materiales'
+ );
 
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const materiaPrima = { nominal, unidad_medida, forma, espesor, material_id };
+  const materiaPrima = { nominal, unidad_medida, forma, espesor, material };
 
   const res = await axios.post(
    'http://localhost:3001/api/materiasprimas',
@@ -65,11 +64,21 @@ const CrearMateriaPrima = () => {
       <hr />
       <FormGroup>
        <Label>Nominal</Label>
-       <Input type='text' onChange={handleChange} name='nominal' value={nominal} />
+       <Input
+        type='text'
+        onChange={handleChange}
+        name='nominal'
+        value={nominal}
+       />
       </FormGroup>
       <FormGroup>
        <Label>Unidad Medida</Label>
-       <Input type='text' onChange={handleChange} name='unidad_medida' value={unidad_medida} />
+       <Input
+        type='text'
+        onChange={handleChange}
+        name='unidad_medida'
+        value={unidad_medida}
+       />
       </FormGroup>
       <FormGroup>
        <Label>Forma</Label>
@@ -77,22 +86,24 @@ const CrearMateriaPrima = () => {
       </FormGroup>
       <FormGroup>
        <Label>Espesor</Label>
-       <Input type='text' onChange={handleChange} name='espesor' value={espesor} />
+       <Input
+        type='text'
+        onChange={handleChange}
+        name='espesor'
+        value={espesor}
+       />
       </FormGroup>
       <FormGroup>
        <Label>Material</Label>
        <Input
         type='select'
-        value={material_id}
+        value={material}
         onChange={handleChange}
         name='material_id'
        >
         <option disabled value=''></option>
         {materiales.map((material) => (
-         <option
-          key={material.material_id}
-          value={material.material_id}
-         >
+         <option key={material.material_id} value={material.material_id}>
           {material.codigo_material}
          </option>
         ))}

@@ -11,7 +11,7 @@ exports.create = async (request, response) => {
   const entrega = {
     orden_de_trabajo_id: request.body.orden_de_trabajo,
     orden_de_compra_id: request.body.orden_de_compra,
-    despacho_id: request.body.despacho_,
+    despacho_id: request.body.despacho,
     fecha_entrega: request.body.fecha_entrega,
     codigo_pieza_cliente: request.body.codigo_pieza_cliente,
     pieza_id: request.body.pieza,

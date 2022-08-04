@@ -8,8 +8,8 @@ exports.create = async (request, response) => {
   // crear subconjunto
   const subconjunto = {
     descripcion: request.body.descripcion,
-    conjunto_id: request.body.conjunto_id,
-    deposito_id: request.body.deposito_id
+    conjunto_id: request.body.conjunto,
+    deposito_id: request.body.deposito
   }
 
   try {
