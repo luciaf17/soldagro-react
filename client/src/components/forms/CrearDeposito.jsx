@@ -12,28 +12,25 @@ import {
 import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
-const CrearTipoPuesto = () => {
- const [form, handleChange, ,handleReset] = useForm({
-  tipo: '',
+const CrearDeposito = () => {
+ const [form, handleChange, , handleReset] = useForm({
+  nombre: '',
  });
 
- const { tipo } = form;
+ const { nombre } = form;
 
+ console.log(form);
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const tipoPuesto = { tipo };
+  const deposito = { nombre };
 
-  const res = await axios.post(
-   'http://localhost:3001/api/tipospuestos',
-   tipoPuesto,
-   {
-    headers: {
-     Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
-    },
-   }
-  );
+  const res = await axios.post('http://localhost:3001/api/depositos', deposito, {
+   headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
+  });
 
   handleReset();
  };
@@ -50,12 +47,17 @@ const CrearTipoPuesto = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Crear Tipo Puesto</span>
+       <span className='font-weight-bold text-center'>Crear Depósito</span>
       </h1>
       <hr />
       <FormGroup>
-       <Label>Tipo</Label>
-       <Input type='text' onChange={handleChange} name='tipo' value={tipo} />
+       <Label>Nombre</Label>
+       <Input
+        type='text'
+        onChange={handleChange}
+        name='nombre'
+        value={nombre}
+       />
       </FormGroup>
       <div className='d-grid gap-2 col-3 mx-auto pt-2'>
        <Button
@@ -82,4 +84,4 @@ const CrearTipoPuesto = () => {
  );
 };
 
-export default CrearTipoPuesto;
+export default CrearDeposito;

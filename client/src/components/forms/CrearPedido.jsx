@@ -20,7 +20,7 @@ import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
 const CrearPedido = () => {
- const [form, handleChange, handleReset] = useForm({
+ const [form, handleChange, , handleReset] = useForm({
   fechaEntrega: '',
   ordenCompra: '',
   cliente: '',

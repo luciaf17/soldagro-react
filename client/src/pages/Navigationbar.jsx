@@ -59,12 +59,53 @@ const Navigationbar = () => {
        <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearPuesto'>
         Crear Puesto
        </DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearDespacho'>
+        Crear Despacho
+       </DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearProveedor'>
+        Crear Proveedor
+       </DropdownItem>
        <DropdownItem
         activeclassname='active'
         tag={RRNavLink}
         to='/CrearUsuario'
        >
         Crear Usuario
+       </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearMateriaPrima'
+       >
+        Crear Materia Prima
+       </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearHojaBarra'
+       >
+        Crear Hoja Barra
+       </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearProceso'
+       >
+        Crear Proceso
+       </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearMaterial'
+       >
+        Crear Material
+       </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearInsumo'
+       >
+        Crear Insumo
        </DropdownItem>
        <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearRol'>
         Crear Rol
@@ -76,8 +117,18 @@ const Navigationbar = () => {
        >
         Crear Contenedor
        </DropdownItem>
+       <DropdownItem
+        activeclassname='active'
+        tag={RRNavLink}
+        to='/CrearTipoContenedor'
+       >
+        Crear Tipo Contenedor
+       </DropdownItem>
        <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearPedido'>
         Crear Pedido
+       </DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/CrearDeposito'>
+        Crear Deposito
        </DropdownItem>
        <DropdownItem
         activeclassname='active'

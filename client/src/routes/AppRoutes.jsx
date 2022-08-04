@@ -13,6 +13,15 @@ import CrearRol from '../components/forms/CrearRol';
 import CrearContenedor from '../components/forms/CrearContenedor';
 import PublicRoute from './PublicRoute';
 import CrearTipoPuesto from '../components/forms/CrearTipoPuesto';
+import CrearDespacho from '../components/forms/CrearDespacho';
+import CrearTipoContenedor from '../components/forms/CrearTipoContenedor';
+import CrearDeposito from '../components/forms/CrearDeposito';
+import CrearProveedor from '../components/forms/CrearProveedor';
+import CrearMaterial from '../components/forms/CrearMaterial';
+import CrearMateriaPrima from '../components/forms/CrearMateriaPrima';
+import CrearHojaBarra from '../components/forms/CrearHojaBarra';
+import CrearInsumo from '../components/forms/CrearInsumo';
+import CrearProceso from '../components/forms/CrearProceso';
 
 const AppRoutes = () => {
  return (
@@ -34,6 +43,15 @@ const AppRoutes = () => {
         <Route exact path='/CrearContenedor' element={<CrearContenedor />} />
         <Route exact path='/CrearPedido' element={<CrearPedido />} />
         <Route exact path='/CrearTipoPuesto' element={<CrearTipoPuesto />} />
+        <Route exact path='/CrearDespacho' element={<CrearDespacho />} />
+        <Route exact path='/CrearTipoContenedor' element={<CrearTipoContenedor />} />
+        <Route exact path='/CrearDeposito' element={<CrearDeposito />} />
+        <Route exact path='/CrearProveedor' element={<CrearProveedor />} />
+        <Route exact path='/CrearMaterial' element={<CrearMaterial />} />
+        <Route exact path='/CrearMateriaPrima' element={<CrearMateriaPrima />} />
+        <Route exact path='/CrearHojaBarra' element={<CrearHojaBarra />} />
+        <Route exact path='/CrearInsumo' element={<CrearInsumo />} />
+        <Route exact path='/CrearProceso' element={<CrearProceso />} />
        </Routes>
       </ProtectedRoutes>
      }

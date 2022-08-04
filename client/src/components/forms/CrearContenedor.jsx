@@ -14,37 +14,43 @@ import useGetData from '../../hooks/useGetData';
 import axios from 'axios';
 
 const CrearContenedor = () => {
- const [form, handleChange, handleReset] = useForm({
+ const [form, handleChange, , handleReset] = useForm({
   nombre: '',
   puesto: '',
+  tipo_contenedor: ''
  });
 
- const { nombre } = form;
+ const { nombre , puesto, tipo_contenedor} = form;
 
  const [puestos, isLoading, isError] = useGetData(
   'http://localhost:3001/api/puestos'
  );
-
+ const [tiposContenedores] = useGetData(
+  'http://localhost:3001/api/tiposContenedores'
+ );
  //se envian los datos
  const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  //preparar el formdata
-  const formData = new FormData();
-  for (const key in form) {
-   formData.append(key, form[key]);
-  }
-
-  //enviar el formdata
-  const res = await axios({
-   method: 'post',
-   url: 'http://localhost:3001/api/contenedores',
-   data: formData,
-   headers: { 'Content-Type': 'multipart/form-data' },
-  });
-
-  handleReset();
- };
+    e.preventDefault();
+  
+    const nuevoContendor = {
+        nombre,
+        puesto,
+        tipo_contenedor
+    };
+  
+    const res = await axios.post(
+     'http://localhost:3001/api/contenedores',
+     nuevoContendor,
+     {
+      headers: {
+       Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+      },
+     }
+    );
+  
+    console.log(res);
+    handleReset();
+   };
 
  return (
   <Container fluid='fluid'>
@@ -69,6 +75,25 @@ const CrearContenedor = () => {
         name='nombre'
         value={nombre}
        />
+      </FormGroup>
+      <FormGroup>
+       <Label>Tipo</Label>
+       <Input
+        type='select'
+        defaultValue={'DEFAULT'}
+        onChange={handleChange}
+        name='tipo_contenedor'
+       >
+        <option disabled value='DEFAULT'></option>
+        {tiposContenedores.map((tipoContenedor) => (
+         <option
+          key={tipoContenedor.tipo_contenedor_id}
+          value={tipoContenedor.tipo_contenedor_id}
+         >
+          {tipoContenedor.tipo}
+         </option>
+        ))}
+       </Input>
       </FormGroup>
       <FormGroup>
        <Label>Puesto</Label>

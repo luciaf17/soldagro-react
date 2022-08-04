@@ -12,26 +12,25 @@ import {
 import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
-const CrearCliente = () => {
+const CrearProveedor = () => {
  const [form, handleChange, , handleReset] = useForm({
   nombre: '',
   direccion: '',
   localidad: '',
   contacto: '',
-  iva: '',
   cuit: '',
  });
 
- const { nombre, direccion, localidad, contacto, iva, cuit } = form;
+ const { nombre, direccion, localidad, contacto, cuit } = form;
 
  //se envian los datos
  const handleSubmit = async (e) => {
   e.preventDefault();
 
- const cliente = { nombre, direccion, localidad, contacto, iva, cuit };
+ const proveedor = { nombre, direccion, localidad, contacto, cuit };
 
- const res = await axios.post('http://localhost:3001/api/clientes', 
- cliente, {
+ const res = await axios.post('http://localhost:3001/api/proveedores', 
+ proveedor, {
    headers: {
     Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
    },
@@ -52,7 +51,7 @@ const CrearCliente = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Crear Cliente</span>
+       <span className='font-weight-bold text-center'>Crear Proveedor</span>
       </h1>
       <hr />
       <FormGroup>
@@ -92,10 +91,6 @@ const CrearCliente = () => {
        />
       </FormGroup>
       <FormGroup>
-       <Label>Condición frente al IVA</Label>
-       <Input type='text' onChange={handleChange} name='iva' value={iva} />
-      </FormGroup>
-      <FormGroup>
        <Label>CUIT</Label>
        <Input type='text' onChange={handleChange} name='cuit' value={cuit} />
       </FormGroup>
@@ -119,4 +114,4 @@ const CrearCliente = () => {
  );
 };
 
-export default CrearCliente;
+export default CrearProveedor;

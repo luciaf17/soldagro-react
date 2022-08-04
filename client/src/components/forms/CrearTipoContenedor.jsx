@@ -12,7 +12,7 @@ import {
 import { useForm } from '../../hooks/useForm';
 import axios from 'axios';
 
-const CrearTipoPuesto = () => {
+const CrearTipoContenedor = () => {
  const [form, handleChange, ,handleReset] = useForm({
   tipo: '',
  });
@@ -23,11 +23,11 @@ const CrearTipoPuesto = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const tipoPuesto = { tipo };
+  const tipoContenedor = { tipo };
 
   const res = await axios.post(
-   'http://localhost:3001/api/tipospuestos',
-   tipoPuesto,
+   'http://localhost:3001/api/tiposContenedores',
+   tipoContenedor,
    {
     headers: {
      Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
@@ -50,7 +50,7 @@ const CrearTipoPuesto = () => {
     >
      <Form className='create-form form-control-md' action=''>
       <h1 className='text-center'>
-       <span className='font-weight-bold text-center'>Crear Tipo Puesto</span>
+       <span className='font-weight-bold text-center'>Crear Tipo Contenedor</span>
       </h1>
       <hr />
       <FormGroup>
@@ -82,4 +82,4 @@ const CrearTipoPuesto = () => {
  );
 };
 
-export default CrearTipoPuesto;
+export default CrearTipoContenedor;

@@ -11,49 +11,61 @@ import {
   Row,
   Col,
 } from "reactstrap";
-//import axios from "axios";
+import axios from "axios";
 import { useForm } from "../../hooks/useForm";
+import useGetData from '../../hooks/useGetData';
 
 const CrearPieza = () => {
 
-  const [form, handleChange, handleReset] = useForm({
-    codCliente: "",
-    descripcion: "",
+  const [form, handleChange, , handleReset] = useForm({
+    codigo_cliente: "",
+    nombre: "",
     peso: "",
-    largoSup: "",
+    largo_superficie: "",
     plano: "",
     revision: "",
-    cliente: "",
-    matPrima: "",
+    cliente_id: "",
+    materia_prima_id: "",
     forma: "",
-    despacho: "",
+    despacho_id: "",
     grupo: "",
     nominal: "",
-    conjunto: "",
-    deposito: "",
+    conjunto_id: "",
+    deposito_id: "",
     precio: "",
+    estructura: {}
   });
 
-  const {codCliente, descripcion, peso, largoSup, plano, revision, cliente, matPrima, forma, despacho, grupo, nominal, conjunto, deposito, precio } = form;
+  const {codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente_id, materia_prima_id, forma, despacho_id, grupo, nominal, conjunto_id, deposito_id, precio } = form;
+
+  const [depositos] = useGetData(
+    'http://localhost:3001/api/depositos'
+    );
+  const [despachos] = useGetData(
+    'http://localhost:3001/api/despachos'
+    );
+  const [clientes] = useGetData(
+    'http://localhost:3001/api/clientes'
+    );
+  const [materiasPrimas] = useGetData(
+    'http://localhost:3001/api/materiasprimas'
+    );
 
   //se envian los datos
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    //preparar el formdata
-    const formData = new FormData();
-    for (const key in form) {
-      formData.append(key, form[key]);
-    }
+  const pieza = { codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente_id, materia_prima_id, forma, despacho_id, grupo, nominal, conjunto_id, deposito_id, precio };
 
-    //enviar el formdata
-    //axios.post('http://localhost:3000/api/cargaPieza', formData);
-    //body: JSON.stringify(formData); otra forma de enviar el formdata
+  const res = await axios.post('http://localhost:3001/api/piezas', pieza, {
+   headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
+  });
 
-  console.log(form);
   handleReset();
-  };
-
+ };
+ 
   return (
     <Container fluid="fluid">
       <Row>
@@ -74,17 +86,17 @@ const CrearPieza = () => {
               <Input
                 type="text"
                 onChange={handleChange}
-                name="codCliente"
-                value={codCliente}
+                name="codigo_cliente"
+                value={codigo_cliente}
               />
             </FormGroup>
             <FormGroup>
-              <Label>Descripción</Label>
+              <Label>Nombre</Label>
               <Input
                 type="textarea"
                 onChange={handleChange}
-                name="descripcion"
-                value={descripcion}
+                name="nombre"
+                value={nombre}
               />
             </FormGroup>
             <FormGroup>
@@ -101,8 +113,8 @@ const CrearPieza = () => {
               <Input
                 type="text"
                 onChange={handleChange}
-                name="largoSup"
-                value={largoSup}
+                name="largo_superficie"
+                value={largo_superficie}
               />
             </FormGroup>
             <FormGroup>
@@ -124,45 +136,18 @@ const CrearPieza = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label>Cliente</Label>
-              <Input
-                type="select"
-                onChange={handleChange}
-                name="cliente"
-                value={cliente}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Materia Prima</Label>
-              <Input
-                type="select"
-                onChange={handleChange}
-                name="matPrima"
-                value={matPrima}
-              />
-            </FormGroup>
-            <FormGroup>
               <Label>Forma</Label>
               <Input
-                type="select"
+                type="text"
                 onChange={handleChange}
                 name="forma"
                 value={forma}
               />
             </FormGroup>
             <FormGroup>
-              <Label>Despacho</Label>
-              <Input
-                type="select"
-                onChange={handleChange}
-                name="despacho"
-                value={despacho}
-              />
-            </FormGroup>
-            <FormGroup>
               <Label>Grupo</Label>
               <Input
-                type="select"
+                type="text"
                 onChange={handleChange}
                 name="grupo"
                 value={grupo}
@@ -171,7 +156,7 @@ const CrearPieza = () => {
             <FormGroup>
               <Label>Nominal</Label>
               <Input
-                type="select"
+                type="text"
                 onChange={handleChange}
                 name="nominal"
                 value={nominal}
@@ -182,19 +167,86 @@ const CrearPieza = () => {
               <Input
                 type="select"
                 onChange={handleChange}
-                name="conjunto"
-                value={conjunto}
+                name="conjunto_id"
+                value={conjunto_id}
               />
             </FormGroup>
             <FormGroup>
-              <Label>Deposito</Label>
-              <Input
-                type="select"
-                onChange={handleChange}
-                name="deposito"
-                value={deposito}
-              />
-            </FormGroup>
+       <Label>Materia Prima</Label>
+       <Input
+        type='select'
+        value={materia_prima_id}
+        onChange={handleChange}
+        name='materia_prima_id'
+       >
+        <option disabled value=''></option>
+        {materiasPrimas.map((materiaPrima) => (
+         <option
+          key={materiaPrima.materia_prima_id}
+          value={materiaPrima.materia_prima_id}
+         >
+          {materiaPrima.nominal}
+         </option>
+        ))}
+       </Input>
+      </FormGroup>
+      <FormGroup>
+       <Label>Deposito</Label>
+       <Input
+        type='select'
+        value={deposito_id}
+        onChange={handleChange}
+        name='deposito_id'
+       >
+        <option disabled value=''></option>
+        {depositos.map((deposito) => (
+         <option
+          key={deposito.deposito_id}
+          value={deposito.deposito_id}
+         >
+          {deposito.nombre}
+         </option>
+        ))}
+       </Input>
+      </FormGroup>
+      <FormGroup>
+       <Label>Cliente</Label>
+       <Input
+        type='select'
+        value={cliente_id}
+        onChange={handleChange}
+        name='cliente_id'
+       >
+        <option disabled value=''></option>
+        {clientes.map((cliente) => (
+         <option
+          key={cliente.cliente_id}
+          value={cliente.cliente_id}
+         >
+          {cliente.nombre}
+         </option>
+        ))}
+       </Input>
+      </FormGroup>
+      <FormGroup>
+       <Label>Despacho</Label>
+       <Input
+        type='select'
+        value={despacho_id}
+        onChange={handleChange}
+        name='despacho_id'
+       >
+        <option disabled value=''></option>
+        {despachos.map((despacho) => (
+         <option
+          key={despacho.despacho_id}
+          value={despacho.despacho_id}
+         >
+          {despacho.nombre}
+         </option>
+        ))}
+       </Input>
+      </FormGroup>
             <FormGroup>
               <Label>Precio</Label>
               <InputGroup>
