@@ -24,19 +24,19 @@ const CrearPieza = () => {
     largo_superficie: "",
     plano: "",
     revision: "",
-    cliente_id: "",
-    materia_prima_id: "",
+    cliente: "",
+    materia_prima: "",
     forma: "",
-    despacho_id: "",
+    despacho: "",
     grupo: "",
     nominal: "",
-    conjunto_id: "",
-    deposito_id: "",
+    conjunto: "",
+    deposito: "",
     precio: "",
     estructura: {}
   });
 
-  const {codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente_id, materia_prima_id, forma, despacho_id, grupo, nominal, conjunto_id, deposito_id, precio } = form;
+  const {codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente, materia_prima, forma, despacho, grupo, nominal, conjunto, deposito, precio } = form;
 
   const [depositos] = useGetData(
     'http://localhost:3001/api/depositos'
@@ -55,7 +55,7 @@ const CrearPieza = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const pieza = { codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente_id, materia_prima_id, forma, despacho_id, grupo, nominal, conjunto_id, deposito_id, precio };
+  const pieza = { codigo_cliente, nombre, peso, largo_superficie, plano, revision, cliente, materia_prima, forma, despacho, grupo, nominal, conjunto, deposito, precio };
 
   const res = await axios.post('http://localhost:3001/api/piezas', pieza, {
    headers: {
@@ -167,17 +167,17 @@ const CrearPieza = () => {
               <Input
                 type="select"
                 onChange={handleChange}
-                name="conjunto_id"
-                value={conjunto_id}
+                name="conjunto"
+                value={conjunto}
               />
             </FormGroup>
             <FormGroup>
        <Label>Materia Prima</Label>
        <Input
         type='select'
-        value={materia_prima_id}
+        value={materia_prima}
         onChange={handleChange}
-        name='materia_prima_id'
+        name='materia_prima'
        >
         <option disabled value=''></option>
         {materiasPrimas.map((materiaPrima) => (
@@ -194,9 +194,9 @@ const CrearPieza = () => {
        <Label>Deposito</Label>
        <Input
         type='select'
-        value={deposito_id}
+        value={deposito}
         onChange={handleChange}
-        name='deposito_id'
+        name='deposito'
        >
         <option disabled value=''></option>
         {depositos.map((deposito) => (
@@ -213,9 +213,9 @@ const CrearPieza = () => {
        <Label>Cliente</Label>
        <Input
         type='select'
-        value={cliente_id}
+        value={cliente}
         onChange={handleChange}
-        name='cliente_id'
+        name='cliente'
        >
         <option disabled value=''></option>
         {clientes.map((cliente) => (
@@ -232,9 +232,9 @@ const CrearPieza = () => {
        <Label>Despacho</Label>
        <Input
         type='select'
-        value={despacho_id}
+        value={despacho}
         onChange={handleChange}
-        name='despacho_id'
+        name='despacho'
        >
         <option disabled value=''></option>
         {despachos.map((despacho) => (

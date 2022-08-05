@@ -18,12 +18,12 @@ const CrearHojaBarra = () => {
   largo: '',
   ancho: '',
   stock: '',
-  deposito_id: '',
-  proveedor_id : '',
-  materia_prima_id : '',
+  deposito: '',
+  proveedor : '',
+  materia_prima : '',
  });
 
- const { largo, ancho, stock, deposito_id, proveedor_id, materia_prima_id } = form;
+ const { largo, ancho, stock, deposito, proveedor, materia_prima } = form;
 
  const [depositos, isLoading, isError] = useGetData(
     'http://localhost:3001/api/depositos'
@@ -41,7 +41,7 @@ const [materiasPrimas] = useGetData(
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const hojaBarra = { largo, ancho, stock, deposito_id, proveedor_id, materia_prima_id};
+  const hojaBarra = { largo, ancho, stock, deposito, proveedor, materia_prima};
 
   const res = await axios.post(
    'http://localhost:3001/api/hojasbarras',
@@ -87,9 +87,9 @@ const [materiasPrimas] = useGetData(
        <Label>Materia Prima</Label>
        <Input
         type='select'
-        value={materia_prima_id}
+        value={materia_prima}
         onChange={handleChange}
-        name='materia_prima_id'
+        name='materia_prima'
        >
         <option disabled value=''></option>
         {materiasPrimas.map((materiaPrima) => (
@@ -106,14 +106,14 @@ const [materiasPrimas] = useGetData(
        <Label>Deposito</Label>
        <Input
         type='select'
-        value={deposito_id}
+        value={deposito}
         onChange={handleChange}
-        name='deposito_id'
+        name='deposito'
        >
         <option disabled value=''></option>
         {depositos.map((deposito) => (
          <option
-          key={deposito.deposito_id}
+          key={deposito._id}
           value={deposito.deposito_id}
          >
           {deposito.nombre}
@@ -125,14 +125,14 @@ const [materiasPrimas] = useGetData(
        <Label>Proveedor</Label>
        <Input
         type='select'
-        value={proveedor_id}
+        value={proveedor}
         onChange={handleChange}
-        name='proveedor_id'
+        name='proveedor'
        >
         <option disabled value=''></option>
         {proveedores.map((proveedor) => (
          <option
-          key={proveedor.proveedor_id}
+          key={proveedor._id}
           value={proveedor.proveedor_id}
          >
           {proveedor.nombre}

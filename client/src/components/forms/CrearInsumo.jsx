@@ -23,11 +23,11 @@ const CrearInsumo = () => {
     unidad_medida: '',
     precio: '',
     stock: '',
-    deposito_id: '',
-    proveedor_id : '',
+    deposito: '',
+    proveedor : '',
  });
 
- const { descripcion, marca, unidad_medida, tamanio, stock, precio, deposito_id, proveedor_id } = form;
+ const { descripcion, marca, unidad_medida, tamanio, stock, precio, deposito, proveedor } = form;
 
  const [depositos, isLoading, isError] = useGetData(
     'http://localhost:3001/api/depositos'
@@ -41,7 +41,7 @@ const CrearInsumo = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const insumo = { descripcion, marca, tamanio, precio, unidad_medida, stock, deposito_id, proveedor_id };
+  const insumo = { descripcion, marca, tamanio, precio, unidad_medida, stock, deposito, proveedor };
 
   const res = await axios.post(
    'http://localhost:3001/api/insumos',
@@ -102,15 +102,15 @@ const CrearInsumo = () => {
        <Label>Deposito</Label>
        <Input
         type='select'
-        value={deposito_id}
+        value={deposito}
         onChange={handleChange}
-        name='deposito_id'
+        name='deposito'
        >
         <option disabled value=''></option>
         {depositos.map((deposito) => (
          <option
-          key={deposito.materia_prima_id}
-          value={deposito.materia_prima_id}
+          key={deposito.deposito_id}
+          value={deposito.deposito_id}
          >
           {deposito.nombre}
          </option>
@@ -121,9 +121,9 @@ const CrearInsumo = () => {
        <Label>Proveedor</Label>
        <Input
         type='select'
-        value={proveedor_id}
+        value={proveedor}
         onChange={handleChange}
-        name='proveedor_id'
+        name='proveedor'
        >
         <option disabled value=''></option>
         {proveedores.map((proveedor) => (

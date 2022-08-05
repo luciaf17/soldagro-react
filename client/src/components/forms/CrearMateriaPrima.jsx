@@ -99,7 +99,7 @@ const CrearMateriaPrima = () => {
         type='select'
         value={material}
         onChange={handleChange}
-        name='material_id'
+        name='material'
        >
         <option disabled value=''></option>
         {materiales.map((material) => (
