@@ -3,7 +3,7 @@ const Envase = db.envase
 
 exports.create = async (request, response) => {
   // validar request
-  if (!request.body.producto_id) {
+  if (!request.body.producto) {
     response.status(400).send({
       message: "El id del producto no puede estar vacío!"
     })

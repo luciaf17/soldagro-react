@@ -3,7 +3,7 @@ const MateriaPrima = db.materiaPrima
 
 exports.create = async (request, response) => {
   // validar request
-  if (!request.body.material_id) {
+  if (!request.body.material) {
     response.status(400).send({
       message: "El material no puede estar vacío!"
     })
