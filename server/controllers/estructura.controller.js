@@ -3,7 +3,7 @@ const Estructura = db.estructura
 
 exports.create = async (request, response) => {
   // validar request
-  if (!request.body.proceso1_id) {
+  if (!request.body.proceso1) {
     response.status(400).send({
       message: "Se debe agregar al menos un proceso válido."
     })
