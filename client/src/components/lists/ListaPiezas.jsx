@@ -1,76 +1,100 @@
 import React from 'react'
 import {
-    Button,
     Container,
     Row,
     Col,
     Table,
-    FormGroup,
-    Input,
-    Label,
-    Form
    } from 'reactstrap';
-import { useForm } from '../../hooks/useForm';
 import useGetData from '../../hooks/useGetData';
 import '../../css/styles.css';
-import { productos } from './data/productos.js';
-import axios from 'axios';
 
 const ListaPiezas = () => {
 
-    const [form, handleChange ,  , handleReset] = useForm({
-        productoElegido: '',
-       });
 
-    const { productoElegido } = form;
-
-       const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const listaElegida = { productoElegido };
-      
-        const res = await axios.get(`http://localhost:3001/api/${productoElegido}`, listaElegida, {
-         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
-         },
-        });
-        console.log(listaElegida);
-       };
+    const [piezas] = useGetData(
+        'http://localhost:3001/api/piezas'
+       );
 
   return (
     <Container fluid='fluid'>
         <Row>
             <Col
             md={{
-            offset: 2,
-            size: 8,
+            size: 12,
             }}
             sm='12'
             >
-                <Form className='create-form form-control-md' action=''>
-                    <FormGroup>
-                        <Label>Seleccione la Lista: </Label>
-                        <Input
-                            type='select'
-                            value={productoElegido}
-                            onChange={handleChange}
-                            name="productoElegido"
-                            className='select'
-                        >
-                            <option disabled value=''></option>
-                            {productos.map((producto) => (
-                            <option
-                            key={producto.id}
-                            value={producto.nombre}
-                            >
-                            {producto.nombre}
-                            </option>
-                            ))}
-                        </Input>
-                    </FormGroup>
-                  <Button className='btn-lista' color="primary" onClick={handleSubmit}>Ver Lista</Button>
-                </Form>
-                
+              <h1 className='title'>Piezas</h1>
+                <Table striped responsive>
+                    <thead>
+                        <tr>
+                        <th>
+                            Codigo Cliente
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Peso
+                        </th>
+                        <th>
+                            Largo/Superficie
+                        </th>
+                        <th>
+                            Plano
+                        </th>
+                        <th>
+                            Revisión
+                        </th>
+                        <th>
+                            Forma
+                        </th>
+                        <th>
+                            Grupo
+                        </th>
+                        <th>
+                            Nominal
+                        </th>
+                        <th>
+                            Mat. Prima
+                        </th>
+                        <th>
+                            Deposito
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Despacho
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {piezas.map((pieza) => {
+                        return (
+                            <tr key={pieza.id}>
+                                <td>{pieza.codigo_cliente}</td>
+                                <td>{pieza.nombre}</td>
+                                <td>{pieza.peso}</td>
+                                <td>{pieza.largo_superficie}</td>
+                                <td>{pieza.plano}</td>
+                                <td>{pieza.revision}</td>
+                                <td>{pieza.forma}</td>
+                                <td>{pieza.grupo}</td>
+                                <td>{pieza.nominal}</td>
+                                <td>{pieza.materia_prima}</td>
+                                <td>{pieza.deposito}</td>
+                                <td>{pieza.cliente}</td>
+                                <td>{pieza.despacho}</td>
+                                <td>{pieza.precio}</td>
+                            </tr>
+                        );
+                        })}
+                    </tbody>
+                </Table>
             </Col>
         </Row>
     </Container>
