@@ -22,6 +22,7 @@ import CrearMateriaPrima from '../components/forms/CrearMateriaPrima';
 import CrearHojaBarra from '../components/forms/CrearHojaBarra';
 import CrearInsumo from '../components/forms/CrearInsumo';
 import CrearProceso from '../components/forms/CrearProceso';
+import ListaPiezas from '../components/lists/ListaPiezas';
 
 const AppRoutes = () => {
  return (
@@ -52,6 +53,7 @@ const AppRoutes = () => {
         <Route exact path='/CrearHojaBarra' element={<CrearHojaBarra />} />
         <Route exact path='/CrearInsumo' element={<CrearInsumo />} />
         <Route exact path='/CrearProceso' element={<CrearProceso />} />
+        <Route exact path='/ListaPiezas' element={<ListaPiezas />} />
        </Routes>
       </ProtectedRoutes>
      }

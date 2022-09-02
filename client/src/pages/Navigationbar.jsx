@@ -144,9 +144,9 @@ const Navigationbar = () => {
        Listas
       </DropdownToggle>
       <DropdownMenu end>
-       <DropdownItem>Piezas</DropdownItem>
-       <DropdownItem>Clientes</DropdownItem>
-       <DropdownItem>Proveedores</DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/ListaPiezas'>Piezas</DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/ListaClientes'>Clientes</DropdownItem>
+       <DropdownItem activeclassname='active' tag={RRNavLink} to='/ListaProveedores'>Proveedores</DropdownItem>
       </DropdownMenu>
      </UncontrolledDropdown>
      <NavItem>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import { ThreeDots } from 'react-loader-spinner';
 import axios from 'axios';
-import '../css/login.css';
+import '../css/styles.css';
 import logo from '../assets/logo.jpg';
 
 const Login = () => {
