@@ -35,7 +35,7 @@ exports.create = async (request, response) => {
 // traer todos las ordenes de trabajo
 exports.findAll = async (request, response) => {
   try {
-    const ordenesDeTrabajo = await OrdenDeTrabajo.findAll()
+    const ordenesDeTrabajo = await OrdenDeTrabajo.findAll({ include: { all: true }, attributes: { exclude: ['despacho_id', 'orden_de_trabajo_id', 'deposito_id'] } })
     response.send(ordenesDeTrabajo)
   } catch (error) {
     response.status(500).send({

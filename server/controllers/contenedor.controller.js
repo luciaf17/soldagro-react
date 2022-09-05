@@ -35,7 +35,7 @@ exports.create = async (request, response) => {
 // traer todos los contenedores
 exports.findAll = async (request, response) => {
   try {
-    const contenedores = await Contenedor.findAll()
+    const contenedores = await Contenedor.findAll({ include: { all: true }, attributes: { exclude: ['puesto_id'] } })
     response.send(contenedores)
   } catch (error) {
     response.status(500).send({

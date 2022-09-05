@@ -33,7 +33,7 @@ exports.create = async (request, response) => {
 // traer todos los envases
 exports.findAll = async (request, response) => {
   try {
-    const envases = await Envase.findAll()
+    const envases = await Envase.findAll({ include: { all: true }, attributes: { exclude: ['deposito_id'] } })
     response.send(envases)
   } catch (error) {
     response.status(500).send({

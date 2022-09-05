@@ -1,5 +1,6 @@
 const db = require('../models')
 const Pieza = db.pieza
+const Cliente = db.cliente
 
 exports.create = async (request, response) => {
   // validar request
@@ -45,7 +46,7 @@ exports.create = async (request, response) => {
 // traer todas las piezas
 exports.findAll = async (request, response) => {
   try {
-    const piezas = await Pieza.findAll()
+    const piezas = await Pieza.findAll({ include: { all: true }, attributes: { exclude: ['cliente_id', 'despacho_id', 'deposito_id', 'materia_prima_id'] } })
     response.send(piezas)
   } catch (error) {
     response.status(500).send({

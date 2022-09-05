@@ -34,7 +34,7 @@ exports.create = async (request, response) => {
 // traer todos las hojas/barra
 exports.findAll = async (request, response) => {
   try {
-    const hojasBarras = await HojaBarra.findAll()
+    const hojasBarras = await HojaBarra.findAll({ include: { all: true }, attributes: { exclude: ['proveedor_id', 'materia_prima_id', 'deposito_id'] } })
     response.send(hojasBarras)
   } catch (error) {
     response.status(500).send({

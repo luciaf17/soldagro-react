@@ -26,7 +26,7 @@ exports.create = async (request, response) => {
 // traer todos los subconjuntos
 exports.findAll = async (request, response) => {
   try {
-    const subconjuntos = await Subconjunto.findAll()
+    const subconjuntos = await Subconjunto.findAll({ include: { all: true }, attributes: { exclude: ['conjunto_id', 'deposito_id'] } })
     response.send(subconjuntos)
   } catch (error) {
     response.status(500).send({

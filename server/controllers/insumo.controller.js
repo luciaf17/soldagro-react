@@ -36,7 +36,7 @@ exports.create = async (request, response) => {
 // traer todos los insumos
 exports.findAll = async (request, response) => {
   try {
-    const insumos = await Insumo.findAll()
+    const insumos = await Insumo.findAll({ include: { all: true }, attributes: { exclude: ['proveedor_id', 'deposito_id'] } })
     response.send(insumos)
   } catch (error) {
     response.status(500).send({

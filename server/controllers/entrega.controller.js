@@ -35,7 +35,7 @@ exports.create = async (request, response) => {
 // traer todos las entregas
 exports.findAll = async (request, response) => {
   try {
-    const entregas = await Entrega.findAll()
+    const entregas = await Entrega.findAll({ include: { all: true }, attributes: { exclude: ['despacho_id', 'pieza_id'] } })
     response.send(entregas)
   } catch (error) {
     response.status(500).send({

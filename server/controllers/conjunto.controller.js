@@ -23,7 +23,7 @@ exports.create = async (request, response) => {
 // traer todos los conjuntos
 exports.findAll = async (request, response) => {
   try {
-    const conjuntos = await Conjunto.findAll()
+    const conjuntos = await Conjunto.findAll({ include: { all: true }, attributes: { exclude: ['deposito_id'] } })
     response.send(conjuntos)
   } catch (error) {
     response.status(500).send({

@@ -33,7 +33,7 @@ exports.create = async (request, response) => {
 // traer todos las materias primas
 exports.findAll = async (request, response) => {
   try {
-    const materiasPrimas = await MateriaPrima.findAll()
+    const materiasPrimas = await MateriaPrima.findAll({ include: { all: true }, attributes: { exclude: ['material_id'] } })
     response.send(materiasPrimas)
   } catch (error) {
     response.status(500).send({

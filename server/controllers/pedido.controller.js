@@ -32,7 +32,7 @@ exports.create = async (request, response) => {
 // traer todos los pedidos
 exports.findAll = async (request, response) => {
   try {
-    const pedidos = await Pedido.findAll()
+    const pedidos = await Pedido.findAll({ include: { all: true }, attributes: { exclude: ['pieza_id', 'pedido_id'] } })
     response.send(pedidos)
   } catch (error) {
     response.status(500).send({
