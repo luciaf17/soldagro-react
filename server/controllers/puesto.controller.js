@@ -5,7 +5,7 @@ exports.create = async (request, response) => {
   // validar request
   if (!request.body.tipo_puesto) {
     response.status(400).send({
-      message: "El id del puesto del puesto no debe estar vacío!"
+      message: "El tipo del puesto no puede estar vacío"
     })
     return
   }

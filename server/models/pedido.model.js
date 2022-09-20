@@ -12,16 +12,7 @@ module.exports = (sequelize, DataType) => {
       type: DataType.INTEGER,
       unique: true,
     },
-    cantidad: {
-      type: DataType.INTEGER,
-    },
-    plano: {
-      type: DataType.STRING,
-    },
     observacion: {
-      type: DataType.STRING,
-    },
-    revision: {
       type: DataType.STRING,
     },
     estado: {

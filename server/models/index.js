@@ -43,6 +43,7 @@ db.proceso = require('./proceso.model')(sequelize, Sequelize)
 db.estructura = require('./estructura.model')(sequelize, Sequelize)
 db.entrega = require('./entrega.model')(sequelize, Sequelize)
 db.usuario_rol = require('./usuarioRol.model')(sequelize, Sequelize)
+db.pedido_pieza = require('./pedidoPieza.model')(sequelize, Sequelize)
 
 
 // Relaciones y asociaciones entre modelos (tablas en db)
@@ -51,12 +52,12 @@ db.usuario_rol = require('./usuarioRol.model')(sequelize, Sequelize)
 // muchos a muchos usuario_rol
 db.usuario.belongsToMany(db.rol, {
   through: "usuario_rol",
-  as: "rol",
+  as: "roles",
   foreignKey: "usuario_id"
 })
 db.rol.belongsToMany(db.usuario, {
   through: "usuario_rol",
-  as: "usuario",
+  as: "usuarios",
   foreignKey: "rol_id"
 })
 
@@ -264,11 +265,16 @@ db.ordenDeTrabajo.belongsTo(db.cliente, {
 //------------------------------//
 
 // PEDIDO
-db.pedido.hasMany(db.pieza, {
-  foreignKey: 'pedido_id'
+// muchos a muchos pedido_pieza
+db.pedido.belongsToMany(db.pieza, {
+  through: "pedido_pieza",
+  as: "piezas",
+  foreignKey: "pedido_id"
 })
-db.pieza.belongsTo(db.pedido, {
-  foreignKey: 'pedido_id'
+db.pieza.belongsToMany(db.pedido, {
+  through: "pedido_pieza",
+  as: "pedidos",
+  foreignKey: "pieza_id"
 })
 /* db.pedido.hasMany(db.ordenDeTrabajo, {
   foreignKey: 'pedido_id'

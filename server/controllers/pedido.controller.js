@@ -1,26 +1,26 @@
 const db = require('../models')
 const Pedido = db.pedido
+const Pieza = db.pieza
 
 exports.create = async (request, response) => {
   // validar request
   // chequear que dato debe ser obligatorio para el pedido y validar con eso
-
+  const piezas = request.body.piezas
   // crear pedido
   const pedido = {
     fecha_entrega: request.body.fecha_entrega,
     orden_compra: request.body.orden_compra,
-    pieza_id: request.body.pieza,
-    cantidad: request.body.cantidad,
-    descripcion: request.body.descripcion,
-    pedido_id: request.body.pedido,
-    plano: request.body.plano,
+    cliente_id: request.body.cliente,
+    //precio: request.body.precio_total, AGREGARLO DESPUES CON EL WIPE DE LA DB
     observacion: request.body.observacion,
-    revision: request.body.revision
   }
 
   try {
-    const savedPedido = await Pedido.create(pedido)
-    response.status(201).json(savedPedido)
+    const pedidoCreado = await Pedido.create(pedido)
+    for await (const pieza of piezas) {
+      await pedidoCreado.addPieza(await Pieza.findByPk(pieza.pieza_id), { through: { cantidad: pieza.cantidad } })
+    }
+    response.status(201).json(pedidoCreado)
   } catch (error) {
     response.status(500).send({
       message: error.message || "Ha ocurrido un error al intentar crear un pedido."
@@ -32,7 +32,7 @@ exports.create = async (request, response) => {
 // traer todos los pedidos
 exports.findAll = async (request, response) => {
   try {
-    const pedidos = await Pedido.findAll({ include: { all: true }, attributes: { exclude: ['pieza_id', 'pedido_id'] } })
+    const pedidos = await Pedido.findAll({ include: { all: true }, attributes: { exclude: ['cliente_id'] } })
     response.send(pedidos)
   } catch (error) {
     response.status(500).send({
