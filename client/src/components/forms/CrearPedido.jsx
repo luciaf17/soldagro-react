@@ -57,19 +57,25 @@ const CrearPedido = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const formData = new FormData();
-  for (const key in form) {
-   formData.append(key, form[key]);
-  }
-  handleReset();
-  console.log(form);
-  //enviar el formdata
-  const res = await axios({
-   method: 'post',
-   url: 'http://localhost:3001/api/pedidos',
-   data: formData,
-   headers: { 'Content-Type': 'multipart/form-data' },
+  const pedido = {
+   fechaEntrega,
+   ordenCompra,
+   cliente,
+   pieza,
+   precio,
+   cantidad,
+   precioTotal,
+   plano,
+   revision,
+  };
+
+  const res = await axios.post('htt://localhost:3001/api/pedidos', pedido, {
+   headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')).token}`,
+   },
   });
+
+  handleReset();
  };
 
  //agregar pieza
