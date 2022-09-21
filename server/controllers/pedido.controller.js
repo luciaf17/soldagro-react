@@ -6,6 +6,7 @@ exports.create = async (request, response) => {
   // validar request
   // chequear que dato debe ser obligatorio para el pedido y validar con eso
   const piezas = request.body.piezas
+  console.log(piezas)
   // crear pedido
   const pedido = {
     fecha_entrega: request.body.fecha_entrega,
@@ -18,7 +19,7 @@ exports.create = async (request, response) => {
   try {
     const pedidoCreado = await Pedido.create(pedido)
     for await (const pieza of piezas) {
-      await pedidoCreado.addPieza(await Pieza.findByPk(pieza.pieza_id), { through: { cantidad: pieza.cantidad } })
+      await pedidoCreado.addPiezas(await Pieza.findOne({ where: { codigo_cliente: pieza.codigo_cliente } }), { through: { cantidad: pieza.cantidad } })
     }
     response.status(201).json(pedidoCreado)
   } catch (error) {

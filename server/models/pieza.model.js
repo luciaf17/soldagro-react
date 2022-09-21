@@ -7,6 +7,7 @@ module.exports = (sequelize, DataType) => {
     },
     codigo_cliente: {
       type: DataType.STRING,
+      primaryKey: true,
       allowNull: false
     },
     nombre: {
