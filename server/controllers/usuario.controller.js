@@ -41,7 +41,7 @@ exports.create = async (request, response) => {
   try {
     const usuarioCreado = await Usuario.create(usuario)
     for await (const rol of roles) {
-      await usuarioCreado.addRol(await Rol.findByPk(rol.value))
+      await usuarioCreado.addRoles(await Rol.findByPk(rol.value))
     }
     response.status(201).json(usuarioCreado)
   } catch (error) {

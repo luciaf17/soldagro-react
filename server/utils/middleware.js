@@ -42,7 +42,7 @@ const adminValidator = async (request, response, next) => {
     {
       include: {
         model: Rol,
-        as: 'rol',
+        as: 'roles',
         through: {
           attributes: []
         }
@@ -53,7 +53,7 @@ const adminValidator = async (request, response, next) => {
   usuarioRequester = JSON.parse(JSON.stringify(usuarioRequester))
 
   // HARDCODED
-  if (!(usuarioRequester.rol.find(rol => rol.nombre === 'Administrador'))) {
+  if (!(usuarioRequester.roles.find(rol => rol.nombre === 'Administrador'))) {
     return response.status(401).json({
       error: 'No cuenta con los permisos necesarios para realizar esta acción.'
     })
