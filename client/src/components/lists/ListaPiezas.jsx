@@ -38,7 +38,7 @@ const ListaPiezas = () => {
       <tbody>
        {piezas.map((pieza) => {
         return (
-         <tr key={pieza.id}>
+         <tr key={pieza.pieza_id}>
           <td>{pieza.codigo_cliente}</td>
           <td>{pieza.nombre}</td>
           <td>{pieza.peso}</td>
